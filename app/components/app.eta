@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Title</title>
+		<link rel="stylesheet" type="text/css" href="./style/style.css">
+	</head>
+
+	<body>
+		<%~ await includeFile('./header.eta') %>
+		<%~ await it.body %>
+
+		<script type="module" src="./script/script.js"></script>
+	</body>
+</html>

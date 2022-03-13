@@ -1,0 +1,15 @@
+<% layout('../components/app.eta') %>
+
+<%
+	const wait = () => new Promise((resolve) => {
+		setTimeout(() => {
+			resolve({ something: true });
+		}, 100);
+	})
+
+	const data = await wait();
+
+	console.log(data)
+%>
+
+<div>INDEX!</div>
