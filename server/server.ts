@@ -18,6 +18,10 @@ for (const route of routes.entries()) {
 	const [route_path, route_template] = route;
 
 	server.get(route_path, ({ request, response }) => {
+		/*
+			alternately, dynamically import a compiled .svelte js and $$render() passing props
+		*/
+
 		return eta.renderFile(absolute_path(`../app/pages/${route_template}`), { request, response });
 	});
 }
