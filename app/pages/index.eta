@@ -1,5 +1,5 @@
 <% const { request, head, data } = it; %>
-<% layout('../components/app.eta', { head }) %>
+<% layout('../components/app.eta', { head, request }) %>
 
 <pre><%= request.url %></pre>
 <pre><%= JSON.stringify(data, null, 3) %></pre>
