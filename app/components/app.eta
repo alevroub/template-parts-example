@@ -1,14 +1,14 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 	<head>
 		<title><%= it.head.title %></title>
-		<link rel="stylesheet" type="text/css" href="/static/style.css">
+		<link rel="stylesheet" type="text/css" href="../style/app.css">
 	</head>
 
 	<body>
 		<%~ includeFile('./header.eta') %>
 		<%~ it.body %>
 
-		<script type="module" src="/static/script.js"></script>
+		<script type="module" src="../script/app.js"></script>
 	</body>
 </html>
