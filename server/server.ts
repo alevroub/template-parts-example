@@ -15,11 +15,12 @@ const routes = [
 for (const route of routes) {
 	const { path, component, controller } = route;
 
-	server.get(path, async (context) => {
-		const { request, response } = context;
+	server.get(path, async ({ request, response }) => {
 		const { head, data } : any = await controller.call(this, request);
 
-		return eta.renderFile(absolute_path(`../app/pages/${component}`), { request, response, head, data });
+		return eta.renderFile(
+			absolute_path(`../app/pages/${component}`), { request, response, head, data }
+		);
 	});
 }
 
