@@ -9,6 +9,7 @@
 	<body>
 		<%~ includeFile('./header.eta') %>
 		<%~ it.body %>
+		<%~ includeFile('./footer.eta') %>
 
 		<script type="module" src="../script/app.js"></script>
 	</body>
