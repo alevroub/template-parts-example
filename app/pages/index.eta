@@ -1,15 +1,5 @@
-<% layout('../components/app.eta') %>
+<% const { head, request } = it; %>
 
-<%
-	const wait = () => new Promise((resolve) => {
-		setTimeout(() => {
-			resolve({ something: true });
-		}, 100);
-	})
+<% layout('../components/app.eta', { head }) %>
 
-	const data = await wait();
-
-	console.log(data)
-%>
-
-<div>INDEX!</div>
+<pre><%= request.url %></pre>
