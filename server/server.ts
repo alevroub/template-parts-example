@@ -1,30 +1,25 @@
 import { eta, abc, path } from './dependencies.ts';
 import { log, absolute_path } from './util.ts';
+import { index_controller } from './controllers.ts'
 
 const port = 3000;
-
 const server = new abc();
-const routes = new Map();
-
-routes.set('/', 'index.eta');
 
 server.static('/style', '../app/style');
 server.static('/script', '../app/script');
 
-for (const route of routes.entries()) {
-	const [route_path, route_template] = route;
+const routes = [
+	{ path: '/', component: 'index.eta', controller: index_controller }
+];
 
-	server.get(route_path, ({ request, response }) => {
-		/*
-			alternately, dynamically import a compiled .svelte js and $$render() passing props
-		*/
+for (const route of routes) {
+	const { path, component, controller } = route;
 
-		const head = { 
-			lang: 'no',
-			title: "hello from deno"
-		};
+	server.get(path, async (context) => {
+		const { request, response } = context;
+		const { head, data } : any = await controller.call(this, request);
 
-		return eta.renderFile(absolute_path(`../app/pages/${route_template}`), { request, response, head });
+		return eta.renderFile(absolute_path(`../app/pages/${component}`), { request, response, head, data });
 	});
 }
 
