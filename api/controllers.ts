@@ -1,4 +1,11 @@
-export async function index_controller(request: any) {
+export async function index(request: any) {
+	/* 
+		fetch from external API, etc. 
+		
+		const response = await fetch('http://etc.com/');
+		const data = await response.json();
+	*/	
+
 	const return_object: any = {
 		head: {
 			title: 'Data from server',
@@ -16,6 +23,6 @@ export async function index_controller(request: any) {
 	return new Promise((resolve) => {
 		setTimeout(() => {
 			resolve(return_object)
-		}, 10);
+		}, 100);
 	})
 }
