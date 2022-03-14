@@ -6,23 +6,24 @@ export async function index(request: any) {
 		const data = await response.json();
 	*/	
 
-	const return_object: any = {
-		head: {
-			title: 'Data from server',
-			lang: 'no'
-		},
+	async function fake_fetch() {
+		return new Promise((resolve) => {
+			const delay = 200;
 
-		data: {
-			_id: 'hj43lk523kl4',
-			slug: {
-				current: 'data-from-server'
-			}
-		}
+			setTimeout(() => {
+				resolve({
+					_id: 'hj43lk523kl4',
+					slug: { current: 'data-from-server' }
+				})
+			}, delay);
+		})
 	}
-	
-	return new Promise((resolve) => {
-		setTimeout(() => {
-			resolve(return_object)
-		}, 100);
-	})
+
+	const data = await fake_fetch();
+	const head = {
+		title: 'Data from server',
+		lang: 'no'
+	}
+
+	return { head, data }
 }
