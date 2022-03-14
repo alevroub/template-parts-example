@@ -1,6 +1,7 @@
 <!doctype html>
-<html lang="en">
+<html lang="<%= it.head.lang %>">
 	<head>
+		<meta charset="UTF-8" />
 		<title><%= it.head.title %></title>
 		<link rel="stylesheet" type="text/css" href="../style/app.css">
 	</head>

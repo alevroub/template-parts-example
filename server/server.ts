@@ -19,7 +19,10 @@ for (const route of routes.entries()) {
 			alternately, dynamically import a compiled .svelte js and $$render() passing props
 		*/
 
-		const head = { title: "hello from deno" };
+		const head = { 
+			lang: 'no',
+			title: "hello from deno"
+		};
 
 		return eta.renderFile(absolute_path(`../app/pages/${route_template}`), { request, response, head });
 	});
