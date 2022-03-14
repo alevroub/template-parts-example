@@ -1,5 +1,5 @@
-@import 'variables.css';
+@import './variables.css';
 
 header {
-	background: var(--pink);
+	background: var(--header-background);
 }
