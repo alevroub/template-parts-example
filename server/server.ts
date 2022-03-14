@@ -1,6 +1,6 @@
 import { eta, abc, path } from './dependencies.ts';
 import { log, absolute_path } from './util.ts';
-import { routes } from '../api/routes.ts';
+import { routes } from '../api/routes.ts';
 import { config } from '../api/config.ts';
 
 const port = config.port;
