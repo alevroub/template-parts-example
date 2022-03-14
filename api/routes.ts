@@ -1,5 +1,5 @@
 import { index } from './controllers.ts'
 
-export const routes = [
+export default [
 	{ path: '/', component: 'index.eta', controller: index }
 ];
