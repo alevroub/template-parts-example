@@ -6,11 +6,6 @@ const port = 3000;
 const server = new abc();
 const routes = new Map();
 
-eta.configure({
-	views: absolute_path('../app/pages/'),
-	async: true
-});
-
 // routes.set('/:page', 'page.eta');
 routes.set('/', 'index.eta');
 
@@ -22,7 +17,9 @@ for (const route of routes.entries()) {
 			alternately, dynamically import a compiled .svelte js and $$render() passing props
 		*/
 
-		return eta.renderFile(absolute_path(`../app/pages/${route_template}`), { request, response });
+		const head = { title: "hello from deno" };
+
+		return eta.renderFile(absolute_path(`../app/pages/${route_template}`), { request, response, head });
 	});
 }
 
