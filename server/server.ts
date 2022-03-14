@@ -6,8 +6,10 @@ const port = 3000;
 const server = new abc();
 const routes = new Map();
 
-// routes.set('/:page', 'page.eta');
 routes.set('/', 'index.eta');
+
+server.static('/style', '../app/style');
+server.static('/script', '../app/script');
 
 for (const route of routes.entries()) {
 	const [route_path, route_template] = route;
