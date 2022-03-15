@@ -20,8 +20,8 @@ export async function index(request: any) {
 		})
 	}
 
-	const data = await fake_fetch();
-	const head = {
+	const data : any = await fake_fetch();
+	const head : any = {
 		title: data.title,
 		lang: 'no',
 	}
