@@ -13,6 +13,7 @@ export async function index(request: any) {
 			setTimeout(() => {
 				resolve({
 					_id: 'hj43lk523kl4',
+					title: 'Data from server',
 					slug: { current: 'data-from-server' }
 				})
 			}, delay);
@@ -21,8 +22,8 @@ export async function index(request: any) {
 
 	const data = await fake_fetch();
 	const head = {
-		title: 'Data from server',
-		lang: 'no'
+		title: data.title,
+		lang: 'no',
 	}
 
 	return { head, data }
