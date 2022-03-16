@@ -7,9 +7,9 @@ import config from '../api/config.ts';
 const port = config.port;
 const server = new abc();
 
-server.static('/assets', '../app/assets');
-server.static('/style', '../app/style');
-server.static('/script', '../app/script');
+server.static('/assets', '/app/assets');
+server.static('/style', '/app/style');
+server.static('/script', '/app/script');
 
 for (const route of routes) {
 	const { path, component, controller } = route;
