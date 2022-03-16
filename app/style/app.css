@@ -3,3 +3,7 @@
 header {
 	background: var(--header-background);
 }
+
+nav[data-visible="false"] {
+	display: none;
+}

@@ -1,3 +1,12 @@
 <header>
 	<div>This is the header</div>
+	<div><button class="header__menu">Menu</button></div>
 </header>
+
+<nav data-visible="false">
+	<% const pages = ['a', 'b', 'c']; %>
+
+	<% for (const page of pages) {%>
+		<ul><%= page %></ul>
+	<% } %>
+</nav>
