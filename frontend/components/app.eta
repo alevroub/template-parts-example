@@ -10,6 +10,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 		<link rel="icon" href="" />
+
 		<link rel="stylesheet" type="text/css" href="../style/fonts.css">
 		<link rel="stylesheet" type="text/css" href="../style/app.css">
 
@@ -31,7 +32,7 @@
 
 	<body>
 		<%~ includeFile('./header.eta') %>
-		<%~ it.body %>
+		<%~ it.page %>
 		<%~ includeFile('./footer.eta') %>
 
 		<script type="module" src="../script/app.js"></script>
