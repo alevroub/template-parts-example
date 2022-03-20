@@ -1,7 +1,4 @@
 - must have
-	- code minification
-		- alternately, a deployment script could minify specific files before uploading to server.
-		  meaning the code could be minified using a non-node.js bundler
 	- deployment script
 	
 - should have
