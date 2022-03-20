@@ -31,9 +31,9 @@
 	</head>
 
 	<body>
-		<%~ includeFile('./header.eta') %>
+		<%~ includeFile('header.eta') %>
 		<%~ it.page %>
-		<%~ includeFile('./footer.eta') %>
+		<%~ includeFile('footer.eta') %>
 
 		<script type="module" src="../script/app.js"></script>
 	</body>
