@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-build_dir=dist/
+build_directory=dist/
 
 case $1 in
 	'run')
@@ -8,7 +8,7 @@ case $1 in
 	;;
 
 	'build')
-		esbuild --bundle app/style/app.css --outdir=$build_dir --minify &&
-		esbuild --bundle app/script/app.js --outdir=$build_dir --minify
+		esbuild --bundle app/style/app.css --outdir=$build_directory --minify &&
+		esbuild --bundle app/script/app.js --outdir=$build_directory --minify
 	;;
 esac
