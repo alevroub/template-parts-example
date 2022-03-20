@@ -16,12 +16,10 @@ server.static('/style', '/frontend/style');
 server.static('/script', '/frontend/script');
 
 for (const route of routes) {
-	const { path, component, controller } = route;
+	server.get(route.path, async ({ request, response }) => {
+		const { head, data } : any = await route.controller(request);
 
-	server.get(path, async ({ request, response }) => {
-		const { head, data } : any = await controller(request);
-
-		const page_file = await Deno.readTextFile(`frontend/pages/${component}`);
+		const page_file = await Deno.readTextFile(`frontend/pages/${route.page}`);
 		const app_file = await Deno.readTextFile('frontend/components/app.eta');
 
 		const page = eta.render(page_file, { request, head, data });

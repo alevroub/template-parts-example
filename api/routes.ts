@@ -1,5 +1,5 @@
 import { index } from './controllers.ts'
 
 export default [
-	{ path: '/', component: 'index.eta', controller: index }
+	{ path: '/', page: 'index.eta', controller: index },
 ];
