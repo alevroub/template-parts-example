@@ -25,4 +25,4 @@ for (const route of routes) {
 
 server.start({ port });
 
-log(`server: ${port}`);
+log(`server: ${port}`, 'color: green');

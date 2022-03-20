@@ -1,8 +1,8 @@
 import { path } from './dependencies.ts';
 
-function log(message: string) {
+function log(message: string, css: string = '') {
 	const log_message = `[${new Date().toISOString().replace('T', ' ').slice(0, 19)}] → ${message}`;
-	console.log(log_message);
+	console.log('%c' + log_message, css);
 }
 
 function absolute_path(filepath: string) {
