@@ -9,7 +9,7 @@ const server = new abc();
 
 eta.configure({
 	views: 'frontend/components/'
-})
+});
 
 server.static('/assets', '/frontend/assets');
 server.static('/style', '/frontend/style');
