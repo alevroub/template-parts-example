@@ -3,8 +3,12 @@
 build_directory=dist/
 
 case $1 in
-	'run')
-		deno run --no-check --unstable --allow-all server/server.ts
+	'dev')
+		deno run --no-check --unstable --allow-all --watch server/server.ts --mode development
+	;;
+
+	'start')
+		deno run --no-check --unstable --allow-all server/server.ts --mode production
 	;;
 
 	'build')

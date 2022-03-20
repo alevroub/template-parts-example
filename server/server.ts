@@ -4,7 +4,7 @@ import { log, absolute_path } from './util.ts';
 import routes from '../api/routes.ts';
 import config from '../api/config.ts';
 
-const port = config.port;
+const { origin, port } = config;
 const server = new abc();
 
 server.static('/assets', '/app/assets');
@@ -25,4 +25,4 @@ for (const route of routes) {
 
 server.start({ port });
 
-log(`server: ${port}`, 'color: green');
+log(`${origin}:${port}`, 'color: green');
