@@ -5,7 +5,6 @@ import { cors } from './middleware.ts';
 import routes from '../api/routes.ts';
 import config from '../api/config.ts';
 
-const { origin, port } = config;
 const server = new abc();
 
 eta.configure({
@@ -38,7 +37,7 @@ for (const route of routes) {
 	server.post(route.path, post_handler, cors);
 }
 
-server.start({ port });
+server.start({ port: config.port });
 
 log(`Port: ${config.port}`, 'blue');
 log(`Origin: ${config.origin}`, 'blue');
