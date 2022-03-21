@@ -1,6 +1,6 @@
 import { eta, abc, path } from './dependencies.ts';
-import { cors } from './middleware.ts';
 import { log, absolute_path } from './util.ts';
+import { cors } from './middleware.ts';
 
 import routes from '../api/routes.ts';
 import config from '../api/config.ts';
@@ -40,4 +40,5 @@ for (const route of routes) {
 
 server.start({ port });
 
-log(`${origin}:${port}`, 'color: green');
+log(`Port: ${config.port}`, 'blue');
+log(`Origin: ${config.origin}`, 'blue');
