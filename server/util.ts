@@ -2,9 +2,9 @@ import { path, process } from './dependencies.ts';
 
 const development_mode = process.mode === 'development';
 
-function log(message: string, css: string = '') {
+function log(message: string, color: string = '') {
 	const log_message = `[${new Date().toISOString().replace('T', ' ').slice(0, 19)}] → ${message}`;
-	console.log('%c' + log_message, css);
+	console.log('%c' + log_message, `color:${color}`);
 }
 
 function absolute_path(filepath: string) {
