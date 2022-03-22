@@ -5,7 +5,7 @@ import { cors } from './middleware.ts';
 import routes from '../api/routes.ts';
 import config from '../api/config.ts';
 
-const server = new abc();
+const server = new abc.Application();
 
 eta.configure({
 	views: 'frontend/components/',

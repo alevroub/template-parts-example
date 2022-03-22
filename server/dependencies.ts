@@ -4,6 +4,5 @@ import * as path from "https://deno.land/std/path/mod.ts";
 import { parse } from "https://deno.land/std/flags/mod.ts"
 
 const process = parse(Deno.args);
-const { Application } = abc;
 
-export { Application as abc, eta, path, process };
+export { abc, eta, path, process };
