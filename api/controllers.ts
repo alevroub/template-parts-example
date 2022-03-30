@@ -1,28 +1,13 @@
+import {sanity_fetch} from '../server/sanity.ts'
+
 export async function index(request: any) {
-	/* 
-		fetch from external API, etc. 
-		
-		const response = await fetch('http://etc.com/');
-		const data = await response.json();
-	*/	
+	const query = `*[slug.current == $slug][0]`;
+	const params = { slug: 'alfa' };
 
-	async function fake_fetch() {
-		return new Promise((resolve) => {
-			const delay = 200;
+	const data : any = await sanity_fetch(query, params);
 
-			setTimeout(() => {
-				resolve({
-					_id: 'hj43lk523kl4',
-					title: 'Data from server',
-					slug: { current: 'data-from-server' }
-				})
-			}, delay);
-		})
-	}
-
-	const data : any = await fake_fetch();
 	const head : any = {
-		title: data.title,
+		title: "PAGE TITLE",
 		lang: 'no',
 	}
 
