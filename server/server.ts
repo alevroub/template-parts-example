@@ -22,8 +22,8 @@ for (const route of routes) {
 		const page_file = await Deno.readTextFile(`frontend/pages/${route.page}`);
 		const app_file = await Deno.readTextFile('frontend/components/app.eta');
 
-		const page = eta.render(page_file, { request, head, data });
-		const app = eta.render(app_file, { request, head, data, page });
+		const page = eta.render(page_file, { request, response, head, data });
+		const app = eta.render(app_file, { request, response, head, data, page });
 
 		return app;
 	}
