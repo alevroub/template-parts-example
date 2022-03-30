@@ -3,7 +3,6 @@
 	
 - should have
 	- a build step (using rollup) might still be necessary for 
-		- code minification
 		- moving files
 		- compiling typescript
 		- compiling (like .svelte) and replacing the server-side templating
