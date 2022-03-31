@@ -32,8 +32,3 @@ function header_component() {
 }
 
 const header = header_component();
-
-setTimeout(() => {
-	header.hide_navigation();
-	header.render();
-}, 5000);
