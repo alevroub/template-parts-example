@@ -5,7 +5,14 @@ export async function index(request: any) {
 	const params = { slug: 'alfa' };
 
 	const data: any = await sanity_fetch(query, params);
-	const head: any = { title: 'PAGE TITLE', lang: 'no' };
+	const head: any = { title: 'HOMEPAGE' };
 
 	return { head, data };
+}
+
+export async function page(request: any) {
+	const data: any = { something: [1, 2, 3, 4] };
+	const head: any = { title: 'PAGE TITLE' };
+
+	return { head, data }
 }
