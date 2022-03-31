@@ -17,6 +17,10 @@ server.static('/script', '/frontend/script');
 
 for (const route of routes) {
 	async function get_handler({ request, response }) {
+		if (!route.controller) {
+			route.controller = () => ({ head: {}, data: {} });
+		}
+
 		const { head, data }: any = await route.controller(request);
 
 		const page_file = await Deno.readTextFile(`frontend/pages/${route.page}`);
