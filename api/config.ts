@@ -1,8 +1,10 @@
 import { development_mode } from '../server/util.ts'
 
+const port = 8000;
+
 export default {
-	port: 80,
-	origin: development_mode ? 'http://localhost:3000' : 'https://alejandro.deno.dev',
+	port: port,
+	origin: development_mode ? `http://localhost:${port}` : 'https://alejandro.deno.dev',
 	origins_allowed: [],
 	sanity: {
 		id: "32td7jzv",
