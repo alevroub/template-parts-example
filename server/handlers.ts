@@ -17,10 +17,11 @@ export async function get_handler({ request, response }, route) {
 	const page = eta.render(page_file, { request, response, head, data });
 	const app = eta.render(app_file, { request, response, head, data, page });
 
-	return app;
+	response.body = app;
 }
 
 export async function post_handler({ request, response }, route) {
 	const { data }: any = await route.controller(request);
-	return data;
+
+	response.body = data;
 }

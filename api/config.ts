@@ -1,6 +1,6 @@
 import { development_mode } from '../server/util.ts'
 
-const port = 8000;
+const port = 3000;
 
 export default {
 	port: port,
