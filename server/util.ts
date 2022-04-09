@@ -1,4 +1,4 @@
-import { path, process } from './dependencies.ts';
+import { mimetype, path, process } from './dependencies.ts';
 
 export const development_mode = process.mode === 'development';
 
