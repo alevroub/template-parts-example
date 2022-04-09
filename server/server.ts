@@ -25,7 +25,7 @@ const server_router = router({
 	...server_routes,
 })
 
-serve(router, server_options);
+serve(server_router, server_options);
 
 log(`Port: ${config.port}`, 'blue');
 log(`Origin: ${config.origin}`, 'blue');
