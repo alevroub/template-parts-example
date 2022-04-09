@@ -1,8 +1,19 @@
+<%
+	const { request } = it;
+	const url = new URL(request.url);
+%>
+
 <div>>>>page.eta</div>
 
 <div>
 	<span>Navigated to: </span>
-	<span><%= JSON.stringify(it.request.url, null, 3) %></span>
+	<span><%= JSON.stringify(request.url, null, 3) %></span>
+</div>
+
+<div>
+	<% for (const parameter of url.searchParams.entries()) {%>
+		<div><%= parameter %></div>
+	<% } %>
 </div>
 
 <div>
