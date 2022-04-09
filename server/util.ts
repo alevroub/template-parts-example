@@ -7,7 +7,15 @@ export function log(message: string, color: string = '') {
 	console.log('%c' + log_message, `color:${color}`);
 }
 
-export function absolute_path(filepath: string) {
-	const server_directory = path.dirname(path.fromFileUrl(import.meta.url));
-	return path.resolve(path.join(server_directory, filepath));
+export async function serve_static(request) {
+	const url = new URL(request.url);
+	const pathname = url.pathname;
+	const file = await Deno.readFile('frontend' + pathname);
+	// const extension = url.pathname.split('.').pop();
+
+	return new Response(file, {
+		headers: {
+			"content-type": mimetype(pathname)
+		}
+	});
 }

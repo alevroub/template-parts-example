@@ -3,7 +3,8 @@ import * as path from "https://deno.land/std/path/mod.ts";
 import { parse } from "https://deno.land/std/flags/mod.ts"
 import { serve } from "https://deno.land/std/http/server.ts";
 import { router } from "https://crux.land/router@0.0.5";
+import { lookup as mimetype } from "https://deno.land/x/media_types/mod.ts";
 
 const process = parse(Deno.args);
 
-export { serve, router, eta, path, process };
+export { serve, router, mimetype, eta, path, process };
