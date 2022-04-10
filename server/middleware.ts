@@ -1,4 +1,4 @@
-export function cors(next) {
+export function cors(next: Function) {
 	return context => {
 		const { request, response } = context;
 		const origin = request.headers.get('origin');

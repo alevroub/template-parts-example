@@ -1,6 +1,6 @@
 import config from '../api/config.ts'
 
-export async function sanity_fetch(query: string, params: any = {}) {
+export async function sanity_fetch(query: string, params: any = {}) : Promise<any> {
 	/* should use the official client at some point */
 
 	const { id, version, dataset } = config.sanity;

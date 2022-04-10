@@ -1,4 +1,4 @@
-import * as eta from "https://deno.land/x/eta@v1.12.3/mod.ts";
+// import * as eta from "https://deno.land/x/eta@v1.12.3/mod.ts";
 import * as path from "https://deno.land/std/path/mod.ts";
 import { parse } from "https://deno.land/std/flags/mod.ts"
 import { serve } from "https://deno.land/std/http/server.ts";
@@ -7,4 +7,4 @@ import { lookup as mimetype } from "https://deno.land/x/media_types/mod.ts";
 
 const process = parse(Deno.args);
 
-export { serve, router, mimetype, eta, path, process };
+export { serve, router, mimetype, path, process };

@@ -1,31 +1,21 @@
-import { eta } from './dependencies.ts';
+export async function get_handler(request: Request, connection: any, params: any) : Promise<Response> {
+	// const { head, data }: any = await route.controller(request);
 
-eta.configure({
-	views: 'frontend/components/',
-});
+	// const page_file = await Deno.readTextFile(`frontend/pages/${route.page}`);
+	// const app_file = await Deno.readTextFile('frontend/components/app.eta');
 
-export async function get_handler({ request, params }, { route }) {
-	if (!route.controller) {
-		route.controller = () => ({ head: {}, data: {} });
-	}
+	// const page = eta.render(page_file, { request, head, data });
+	// const app = eta.render(app_file, { request, head, data, page });
 
-	const { head, data }: any = await route.controller(request);
-
-	const page_file = await Deno.readTextFile(`frontend/pages/${route.page}`);
-	const app_file = await Deno.readTextFile('frontend/components/app.eta');
-
-	const page = eta.render(page_file, { request, head, data });
-	const app = eta.render(app_file, { request, head, data, page });
-
-	return new Response(app, {
-		headers: { 'content-type': 'text/html' }
+	return new Response(`Navigated to ${request.url}`, {
+		headers: new Headers({ 'content-type': 'text/html' })
 	});
 }
 
-export async function post_handler({ request, params }, { route }) {
-	const { data }: any = await route.controller(request);
+export async function post_handler(request: Request, connection: any, params: any) : Promise<Response> {
+	// const { data }: any = await route.controller(request);
 
-	return new Response(data, {
-		headers: { 'content-type': 'application/json' }
+	return new Response(`{ "foo": "bar" }`, {
+		headers: new Headers({ 'content-type': 'application/json' })
 	});
 }
