@@ -11,9 +11,9 @@ const static_routes = {
 	'/script/*': serve_static,
 };
 
-const server_routes = routes.reduce((all, route) => {
+const server_routes = routes.reduce((all: any, route: any) => {
 	all[route.path] = (request: Request, connection: any, params: any) => {
-		return get_handler(request, connection, params);
+		return get_handler(request, connection, params, route);
 	};
 
 	return all;
