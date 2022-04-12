@@ -37,7 +37,7 @@
  * 	filters 	= 	{ shout: value => `${value}!` }
  * 	options  =  {}
  *
- * 	render(template, data, filters, options) --> <div>Alejandro!</div>
+ * 	await render(template, data, filters, options) --> <div>Alejandro!</div>
  *
  * OPTIONS
  * 	show_comments : boolean = false		// whether it will include comments in output
@@ -54,12 +54,12 @@ export type NanoEngineOptions = {
 	include_path?: string;
 };
 
-export function render(
+export async function render(
 	template: string,
 	data: object,
 	filters: NanoEngineFilters,
 	options?: NanoEngineOptions
-): string {
+): Promise<string> {
 	return compile(parse(template), data, filters, options);
 }
 
@@ -109,19 +109,15 @@ function parse(input: string): string[] {
 	return parsed_output;
 }
 
-function compile(
+async function compile(
 	input_parsed: string[],
 	input_data: object,
 	input_filters: NanoEngineFilters,
 	input_options?: NanoEngineOptions
-): string {
+): Promise<string> {
 	const compiled_output: string[] = [];
 	const default_options: NanoEngineOptions = { include_path: '', show_comments: false };
 	const compile_options: NanoEngineOptions = Object.assign(default_options, input_options);
-
-	function append_to_output(output_code: string): void {
-		compiled_output.push(output_code);
-	}
 
 	function get_value_from_input_data(variable_name: string): any {
 		const variable_name_dot_separated = variable_name.split('.');
@@ -132,14 +128,11 @@ function compile(
 		return variable_value;
 	}
 
-	function compile_comment(token: string): void {
-		if (compile_options.show_comments === true) {
-			const comment = token.replace('{#', '<!--').replace('#}', '-->');
-			append_to_output(comment);
-		}
+	async function compile_comment(token: string): Promise<string> {
+		return (compile_options.show_comments === true) ? token.replace('{#', '<!--').replace('#}', '-->') : '';
 	}
 
-	function compile_expression(token: string): void {
+	async function compile_expression(token: string): Promise<string> {
 		const statement = token.slice(2, -2).trim();
 
 		if (statement.includes('|')) {
@@ -149,17 +142,18 @@ function compile(
 				return input_filters[filter] !== undefined ? input_filters[filter](processed_value) : processed_value;
 			}, variable_value);
 
-			append_to_output(filtered_value.toString());
+			return filtered_value.toString();
 		} else {
 			const variable_value = get_value_from_input_data(statement);
-			append_to_output(variable_value.toString());
+			return variable_value.toString();
 		}
 	}
 
-	function compile_block(token: string): void {
+	async function compile_block(token: string): Promise<string> {
 		const block_content_regex = new RegExp('({%.*?%})', 'g');
 		const block_content = token.split(block_content_regex).slice(1, -1);
 		const statement = block_content[0].slice(2, -2).trim();
+		const block_output: string[] = [];
 
 		if (statement.startsWith('for')) {
 			const [_, for_variable, __, for_iterator] = statement.split(' ');
@@ -168,7 +162,7 @@ function compile(
 			const loop_iterator = get_value_from_input_data(for_iterator);
 
 			for (const data of loop_iterator) {
-				append_to_output(render(loop_content.join(''), { ...input_data, [for_variable]: data }, input_filters));
+				block_output.push(await render(loop_content.join(''), { ...input_data, [for_variable]: data }, input_filters));
 			}
 		}
 
@@ -182,10 +176,10 @@ function compile(
 			const else_block = else_position > -1 ? block_content.slice(else_position + 1, -1) : null;
 
 			if (if_condition) {
-				append_to_output(render(if_block.join(''), input_data, input_filters));
+				block_output.push(await render(if_block.join(''), input_data, input_filters));
 			} else {
 				if (else_block) {
-					append_to_output(render(else_block.join(''), input_data, input_filters));
+					block_output.push(await render(else_block.join(''), input_data, input_filters));
 				}
 			}
 		}
@@ -193,18 +187,23 @@ function compile(
 		if (statement.startsWith('include')) {
 			const [_, filename] = statement.split(' ');
 			const filepath = compile_options.include_path + filename.slice(1, -1);
-			const source_file = Deno.readTextFileSync(filepath);
+			const source_file = await Deno.readTextFile(filepath);
 
-			append_to_output(render(source_file, input_data, input_filters));
+			block_output.push(await render(source_file, input_data, input_filters));
 		}
+
+		return block_output.join('');
 	}
 
 	for (const token of input_parsed) {
-		switch (true) {
-			case token.startsWith('{#'): compile_comment(token); break;
-			case token.startsWith('{{'): compile_expression(token); break;
-			case token.startsWith('{%'): compile_block(token); break;
-			default: append_to_output(token);
+		if (token.startsWith('{#')) {
+			compiled_output.push(await compile_comment(token));
+		} else if (token.startsWith('{{')) {
+			compiled_output.push(await compile_expression(token));
+		} else if (token.startsWith('{%')) {
+			compiled_output.push(await compile_block(token));
+		} else {
+			compiled_output.push(token);
 		}
 	}
 

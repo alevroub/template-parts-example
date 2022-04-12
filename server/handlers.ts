@@ -15,8 +15,12 @@ export async function get_handler(request: Request, connection: object, params: 
 	const page_file = await Deno.readTextFile(`frontend/pages/${route.page}`);
 	const app_file = await Deno.readTextFile('frontend/components/app.html');
 
-	const page = render(page_file, { request, head, data }, rendering_filters, rendering_options);
-	const app = render(app_file, { request, head, data, page }, rendering_filters, rendering_options);
+	console.time('COMP_TIME')
+
+	const page = await render(page_file, { request, head, data }, rendering_filters, rendering_options);
+	const app = await render(app_file, { request, head, data, page }, rendering_filters, rendering_options);
+
+	console.timeEnd('COMP_TIME')
 
 	return new Response(app, {
 		headers: new Headers({ 'content-type': 'text/html' })
