@@ -162,9 +162,8 @@ async function compile(
 			const loop_iterator = get_value_from_input_data(for_iterator);
 
 			for (const data of loop_iterator) {
-				block_output.push(
-					await render(loop_content.join(''), { ...input_data, [for_variable]: data }, input_filters, input_options)
-				);
+				const loop_data = { ...input_data, [for_variable]: data };
+				block_output.push(await render(loop_content.join(''), loop_data, input_filters, input_options));
 			}
 		}
 
