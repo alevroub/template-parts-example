@@ -163,7 +163,7 @@ async function compile(
 
 			for (const data of loop_iterator) {
 				block_output.push(
-					await render(loop_content.join(''), { ...input_data, [for_variable]: data }, input_filters)
+					await render(loop_content.join(''), { ...input_data, [for_variable]: data }, input_filters, input_options)
 				);
 			}
 		}
@@ -178,10 +178,10 @@ async function compile(
 			const else_block = else_position > -1 ? block_content.slice(else_position + 1, -1) : null;
 
 			if (if_condition) {
-				block_output.push(await render(if_block.join(''), input_data, input_filters));
+				block_output.push(await render(if_block.join(''), input_data, input_filters, input_options));
 			} else {
 				if (else_block) {
-					block_output.push(await render(else_block.join(''), input_data, input_filters));
+					block_output.push(await render(else_block.join(''), input_data, input_filters, input_options));
 				}
 			}
 		}
@@ -191,7 +191,7 @@ async function compile(
 			const filepath = compile_options.include_path + filename.slice(1, -1);
 			const source_file = await Deno.readTextFile(filepath);
 
-			block_output.push(await render(source_file, input_data, input_filters));
+			block_output.push(await render(source_file, input_data, input_filters, input_options));
 		}
 
 		return block_output.join('');
