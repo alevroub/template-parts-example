@@ -1,10 +1,12 @@
 // Copyright (c) 2022 Alejandro V. Rojas. All rights reserved. MIT license.
 
 /**
+ * v0.0.1
+ *
  * Nano Template Engine – a very very very very simple template engine.
  * This template engine does not perform any JS evaluations at runtime.
  * It was made mostly for playing around with simple prototypes deployed
- * with Deno Deploy which does not allow eval() for now. It does not try
+ * with Deno Deploy, which does not allow eval() for now. It does not try
  * to reinvent the wheel in terms of syntax and neither does it guide
  * you through it. Below is a summary of language features. This is most
  * likely not the best engine to get started with if you've never used
