@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		
-		<title><%= it.head.title %></title>
+		<title>{{ meta.title }}</title>
 		
 		<meta name="description" content="" />
 		<meta name="theme-color" content="" />
@@ -14,7 +14,7 @@
 		<link rel="stylesheet" type="text/css" href="../style/fonts.css">
 		<link rel="stylesheet" type="text/css" href="../style/app.css">
 
-		<link rel="canonical" href="<%= it.request.url %>" />
+		<link rel="canonical" href="{{ meta.url }}" />
 		
 		<meta property="og:title" content="" />
 		<meta property="og:description" content="" />
@@ -31,9 +31,7 @@
 	</head>
 
 	<body>
-		<%~ includeFile('header.eta') %>
-		<%~ it.page %>
-		<%~ includeFile('footer.eta') %>
+		{{ page }}
 
 		<script type="module" src="../script/app.js"></script>
 	</body>

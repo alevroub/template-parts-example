@@ -1,0 +1,9 @@
+<div>INDEX</div>
+
+<ul>
+	{% for doc in data.documentation %}
+		<li>{{ doc.asset._ref }}</li>
+	{% endfor %}
+</ul>
+
+<pre>{{ data | json }}</pre>
