@@ -129,7 +129,7 @@ async function compile(
 	}
 
 	async function compile_comment(token: string): Promise<string> {
-		return (compile_options.show_comments === true) ? token.replace('{#', '<!--').replace('#}', '-->') : '';
+		return compile_options.show_comments === true ? token.replace('{#', '<!--').replace('#}', '-->') : '';
 	}
 
 	async function compile_expression(token: string): Promise<string> {
@@ -162,7 +162,9 @@ async function compile(
 			const loop_iterator = get_value_from_input_data(for_iterator);
 
 			for (const data of loop_iterator) {
-				block_output.push(await render(loop_content.join(''), { ...input_data, [for_variable]: data }, input_filters));
+				block_output.push(
+					await render(loop_content.join(''), { ...input_data, [for_variable]: data }, input_filters)
+				);
 			}
 		}
 
