@@ -75,7 +75,7 @@ function parse(input: string): string[] {
 		const statement = token.slice(2, -2).trim();
 
 		if (token.startsWith('{%') && !statement.startsWith('include')) {
-			const [ keyword ] = statement.split(' ');
+			const [keyword] = statement.split(' ');
 
 			block_buffer.tokens.push(token);
 
@@ -116,10 +116,8 @@ function compile(
 	input_options?: NanoEngineOptions
 ): string {
 	const compiled_output: string[] = [];
-	const compile_options: NanoEngineOptions = Object.assign({
-		include_path: '',
-		show_comments: false
-	}, input_options);
+	const default_options: NanoEngineOptions = { include_path: '', show_comments: false };
+	const compile_options: NanoEngineOptions = Object.assign(default_options, input_options);
 
 	function append_to_output(output_code: string): void {
 		compiled_output.push(output_code);
@@ -203,17 +201,10 @@ function compile(
 
 	for (const token of input_parsed) {
 		switch (true) {
-			case token.startsWith('{#'):
-				compile_comment(token);
-				break;
-			case token.startsWith('{{'):
-				compile_expression(token);
-				break;
-			case token.startsWith('{%'):
-				compile_block(token);
-				break;
-			default:
-				append_to_output(token);
+			case token.startsWith('{#'): compile_comment(token); break;
+			case token.startsWith('{{'): compile_expression(token); break;
+			case token.startsWith('{%'): compile_block(token); break;
+			default: append_to_output(token);
 		}
 	}
 
