@@ -4,15 +4,15 @@ export async function index(request: any) {
 	const query = `*[slug.current == $slug][0]`;
 	const params = { slug: 'alfa' };
 
-	const data: any = await sanity_fetch(query, params);
-	const head: any = { title: 'HOMEPAGE' };
+	const data: object = await sanity_fetch(query, params);
+	const head: object = { title: 'HOMEPAGE' };
 
 	return { head, data };
 }
 
 export async function page(request: any) {
-	const data: any = { something: [1, 2, 3, 4] };
-	const head: any = { title: 'PAGE TITLE' };
+	const data: object = { numbers: [1, 2, 3, 4] };
+	const head: object = { title: 'PAGE TITLE' };
 
-	return { head, data }
+	return { head, data };
 }
