@@ -35,13 +35,13 @@
  * 	template = 	<div>{{ user.name | shout }}<div>
  * 	data 		=	{ user: { name: "Alejandro" } }
  * 	filters 	= 	{ shout: value => `${value}!` }
- * 	options  =  {}
+ * 	options  =  { show_comments: true }
  *
  * 	await render(template, data, filters, options) --> <div>Alejandro!</div>
  *
  * OPTIONS
- * 	show_comments : boolean = false		// whether it will include comments in output
- * 	include_path  : string  = ''			// path to prepend to include file blocks
+ * 	show_comments : boolean = false		// whether to include {# comments #} in output
+ * 	include_path  : string  = ''			// path to prepend in {% include %} blocks
  *
  */
 
