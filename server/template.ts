@@ -25,17 +25,17 @@
  * 	{# a comment in between #}
  * 	{% for user in users %}
  * 		{% if user.fullname %}
- *		 		<div>{{ user.fullname | title_case }}</div>
+ * 			<div>{{ user.fullname | title_case }}</div>
  * 		{% else %}
  * 			<div>{{ user.name }}</div>
  * 		{% endif %}
  * 	{% endfor %}
  *
  * USAGE
- * 	template = 	<div>{{ user.name | shout }}<div>
+ * 	template =	<div>{{ user.name | shout }}<div>
  * 	data 		=	{ user: { name: "Alejandro" } }
- * 	filters 	= 	{ shout: value => `${value}!` }
- * 	options  =  { show_comments: true }
+ * 	filters 	=	{ shout: value => `${value}!` }
+ * 	options 	=	{ show_comments: true }
  *
  * 	await render(template, data, filters, options) --> <div>Alejandro!</div>
  *
