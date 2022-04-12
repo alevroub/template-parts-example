@@ -153,7 +153,7 @@ function compile(
 			const [variable, ...filters] = statement.split('|').map(v => v.trim());
 			const variable_value = get_value_from_input_data(variable);
 			const filtered_value = filters.reduce((processed_value, filter) => {
-				return input_filters[filter] === undefined ? processed_value : input_filters[filter](processed_value);
+				return input_filters[filter] !== undefined ? input_filters[filter](processed_value) : processed_value;
 			}, variable_value);
 
 			append_to_output(filtered_value.toString());
