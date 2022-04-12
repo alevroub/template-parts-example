@@ -41,15 +41,6 @@
  *
  * 	render(template, data, filters) --> <div>Alejandro!</div>
  *
- * NOTES
- * 	COULD HAVE
- * 	>> {% include 'file' %}
- * 	>> {% elseif %}
- *
- *		WON'T HAVE
- * 	>> proper formatting of inner blocks
- * 	>> syntax error handling
- * 	>> more options
  */
 
 export type NanoEngineFilters = {
