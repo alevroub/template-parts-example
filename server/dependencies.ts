@@ -4,7 +4,7 @@ import { parse } from "https://deno.land/std/flags/mod.ts"
 import { serve } from "https://deno.land/std/http/server.ts";
 import { router } from "https://crux.land/router@0.0.5";
 import { lookup as mimetype } from "https://deno.land/x/media_types/mod.ts";
-import { render } from './template.ts'
+import { render } from 'https://raw.githubusercontent.com/alevroub/nano-template-engine/main/mod.ts'
 
 const process = parse(Deno.args);
 
