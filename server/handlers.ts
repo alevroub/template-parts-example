@@ -1,5 +1,10 @@
 import { render } from './dependencies.ts'
 
+const rendering_options = {
+	show_comments: true,
+	include_path: 'frontend/components/'
+}
+
 const rendering_filters = {
 	json: (value: any) => JSON.stringify(value, null, 3)
 };
@@ -10,8 +15,8 @@ export async function get_handler(request: Request, connection: object, params: 
 	const page_file = await Deno.readTextFile(`frontend/pages/${route.page}`);
 	const app_file = await Deno.readTextFile('frontend/components/app.html');
 
-	const page = render(page_file, { request, head, data }, rendering_filters);
-	const app = render(app_file, { request, head, data, page }, rendering_filters);
+	const page = render(page_file, { request, head, data }, rendering_filters, rendering_options);
+	const app = render(app_file, { request, head, data, page }, rendering_filters, rendering_options);
 
 	return new Response(app, {
 		headers: new Headers({ 'content-type': 'text/html' })

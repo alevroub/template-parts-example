@@ -18,28 +18,30 @@
  * 	>> if / if not / else
  * 	>> filters
  * 	>> comments
+ * 	>> include files
  *
  * EXAMPLE
+ * 	{% include "header.html" %}
+ * 	{# a comment in between #}
  * 	{% for user in users %}
  * 		{% if user.fullname %}
  *		 		<div>{{ user.fullname | title_case }}</div>
  * 		{% else %}
  * 			<div>{{ user.name }}</div>
  * 		{% endif %}
- *
- * 		{# a comment in between #}
- *
- * 		{% for link in user.links %}
- * 			<div>{{ user.name }} recommends: {{ link }}</div>
- * 		{% endfor %}
  * 	{% endfor %}
  *
  * USAGE
  * 	template = 	<div>{{ user.name | shout }}<div>
  * 	data 		=	{ user: { name: "Alejandro" } }
  * 	filters 	= 	{ shout: value => `${value}!` }
+ * 	options  =  {}
  *
- * 	render(template, data, filters) --> <div>Alejandro!</div>
+ * 	render(template, data, filters, options) --> <div>Alejandro!</div>
+ *
+ * OPTIONS
+ * 	show_comments : boolean = false		// whether it will include comments in output
+ * 	include_path  : string  = ''			// path to prepend to include file blocks
  *
  */
 
@@ -48,7 +50,8 @@ export type NanoEngineFilters = {
 };
 
 export type NanoEngineOptions = {
-	include_comments: boolean;
+	show_comments?: boolean;
+	include_path?: string;
 };
 
 export function render(
@@ -69,10 +72,10 @@ function parse(input: string): string[] {
 
 	for (let position = 0; position < tokens.length; position++) {
 		const token = tokens[position];
+		const statement = token.slice(2, -2).trim();
 
-		if (token.startsWith('{%')) {
-			const statement = token.slice(2, -2).trim();
-			const [keyword] = statement.split(' ');
+		if (token.startsWith('{%') && !statement.startsWith('include')) {
+			const [ keyword ] = statement.split(' ');
 
 			block_buffer.tokens.push(token);
 
@@ -113,9 +116,10 @@ function compile(
 	input_options?: NanoEngineOptions
 ): string {
 	const compiled_output: string[] = [];
-	const compile_options: NanoEngineOptions = input_options || {
-		include_comments: false,
-	};
+	const compile_options: NanoEngineOptions = Object.assign({
+		include_path: '',
+		show_comments: false
+	}, input_options);
 
 	function append_to_output(output_code: string): void {
 		compiled_output.push(output_code);
@@ -131,7 +135,7 @@ function compile(
 	}
 
 	function compile_comment(token: string): void {
-		if (compile_options.include_comments === true) {
+		if (compile_options.show_comments === true) {
 			const comment = token.replace('{#', '<!--').replace('#}', '-->');
 			append_to_output(comment);
 		}
@@ -186,6 +190,14 @@ function compile(
 					append_to_output(render(else_block.join(''), input_data, input_filters));
 				}
 			}
+		}
+
+		if (statement.startsWith('include')) {
+			const [_, filename] = statement.split(' ');
+			const filepath = compile_options.include_path + filename.slice(1, -1);
+			const source_file = Deno.readTextFileSync(filepath);
+
+			append_to_output(render(source_file, input_data, input_filters));
 		}
 	}
 
