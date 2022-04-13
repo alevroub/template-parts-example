@@ -1,34 +1,31 @@
 import { serve, router } from './dependencies.ts';
-import { log, serve_static } from './util.ts';
-import { get_handler, post_handler } from './handlers.ts';
+import { log } from './util.ts';
+import { handle_get, handle_post, handle_static } from './handlers.ts';
 
 import routes from '../api/routes.ts';
 import config from '../api/config.ts';
 
 const static_routes = {
-	'/assets/*': serve_static,
-	'/style/*': serve_static,
-	'/script/*': serve_static,
+	'/assets/*': handle_static,
+	'/style/*': handle_static,
+	'/script/*': handle_static,
 };
 
-const server_routes = routes.reduce((all: any, route: any) => {
-	all[route.path] = (request: Request, connection: any, params: any) => {
-		return get_handler(request, connection, params, route);
+const server_routes = routes.reduce((reduced: any, route: any) => {
+	const methods = {
+		[`GET@${route.path}`]: (request: Request, params: object) => handle_get(request, params, route),
+		[`POST@${route.path}`]: (request: Request, params: object) => handle_post(request, params, route)
 	};
 
-	return all;
+	return { ...reduced, ...methods };
 }, {});
-
-const server_options = {
-	port: config.port,
-};
 
 const server_router = router({
 	...static_routes,
 	...server_routes,
 });
 
-serve(server_router, server_options);
+serve(server_router, { port: config.port });
 
 log(`Port: ${config.port}`, 'blue');
 log(`Origin: ${config.origin}`, 'blue');
