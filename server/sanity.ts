@@ -1,6 +1,6 @@
 import config from '../api/config.ts'
 
-export async function sanity_fetch(query: string, params: object = {}): Promise<any> {
+export async function sanity_fetch(query: string, params: Record<string, any>): Promise<any> {
 	const { id, version, dataset, cdn } = config.sanity;
 
 	const host = cdn === true ? 'apicdn.sanity.io' : 'api.sanity.io';
