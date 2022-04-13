@@ -1,18 +1,18 @@
 import { sanity_fetch } from '../server/sanity.ts';
 
-export async function index(request: any) {
+export async function index(request: Request, params: Record<string, string>) {
 	const query = `*[slug.current == $slug][0]`;
-	const params = { slug: 'alfa' };
+	const query_params = { slug: 'alfa' };
 
-	const data: object = await sanity_fetch(query, params);
-	const head: object = { title: 'HOMEPAGE' };
+	const data = await sanity_fetch(query, query_params);
+	const meta = { title: 'HOMEPAGE' };
 
-	return { head, data };
+	return { meta, data };
 }
 
-export async function page(request: any) {
-	const data: object = { numbers: [1, 2, 3, 4] };
-	const head: object = { title: 'PAGE TITLE' };
+export async function page(request: Request, params: Record<string, string>) {
+	const data = { numbers: [1, 2, 3, 4] };
+	const meta = { title: 'PAGE TITLE' };
 
-	return { head, data };
+	return { meta, data };
 }
