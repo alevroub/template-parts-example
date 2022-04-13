@@ -7,10 +7,6 @@ case $1 in
 		deno run --unstable --allow-all --watch server/server.ts --mode development
 	;;
 
-	'template')
-		deno run --unstable --allow-all server/template_test.ts --mode development
-	;;
-
 	'start')
 		deno run --no-check --unstable --allow-all server/server.ts --mode production
 	;;
