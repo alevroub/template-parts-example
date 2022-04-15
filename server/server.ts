@@ -1,31 +1,26 @@
-import { serve, router } from './dependencies.ts';
 import { log } from './util.ts';
+import { oak_server, oak_router } from './dependencies.ts';
 import { handle_get, handle_post, handle_static } from './handlers.ts';
 
 import routes from '../api/routes.ts';
 import config from '../api/config.ts';
 
-const static_routes = {
-	'/assets/*': handle_static,
-	'/style/*': handle_static,
-	'/script/*': handle_static,
-};
+const server = new oak_server();
+const router = new oak_router();
 
-const server_routes = routes.reduce((reduced: any, route: any) => {
-	const methods = {
-		[`GET@${route.path}`]: (request: Request, params: object) => handle_get(request, params, route),
-		[`POST@${route.path}`]: (request: Request, params: object) => handle_post(request, params, route)
-	};
+router.get('/style/(.*)', handle_static);
+router.get('/script/(.*)', handle_static);
+router.get('/assets/(.*)', handle_static);
 
-	return { ...reduced, ...methods };
-}, {});
+for (const route of routes.map(route => ({
+	...route, controller: route.controller || (async () => ({ data: {}, meta: {} }))
+}))) {
+	router.get(route.path, context => handle_get(route, context));
+	router.post(route.path, context => handle_post(route, context));
+}
 
-const server_router = router({
-	...static_routes,
-	...server_routes,
-});
-
-serve(server_router, { port: config.port });
+server.use(router.routes());
+server.listen({ port: config.port });
 
 log(`Port: ${config.port}`, 'blue');
 log(`Origin: ${config.origin}`, 'blue');
