@@ -38,12 +38,13 @@ export async function handle_post(route: Route, context: Context): Promise<void>
 	const { response } = context;
 	const { data } = await route.controller(context);
 
-	(response.headers = new Headers({ 'content-type': 'application/json' })), (response.body = JSON.stringify(data));
+	response.headers = new Headers({ 'content-type': 'application/json' });
+	response.body = JSON.stringify(data);
 }
 
 export async function handle_static(context: Context): Promise<void> {
-	const { response } = context;
-	const url = new URL(context.request.url.href);
+	const { request, response } = context;
+	const url = new URL(request.url.href);
 
 	try {
 		const file = await Deno.readFile('frontend' + url.pathname);
