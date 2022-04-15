@@ -1,4 +1,4 @@
-import { Route, Context, ContextRequest, ContextResponse } from './types.ts';
+import { Route, RouteContext, ContextRequest, ContextResponse } from './types.ts';
 
 import { mimetype, render } from './dependencies.ts';
 import { read_templates } from './templates.ts';
@@ -6,7 +6,7 @@ import { read_templates } from './templates.ts';
 import meta_default from '../frontend/app/meta.ts';
 import render_filters from '../frontend/app/filters.ts';
 
-export async function handle_get(route: Route, context: Context): Promise<void> {
+export async function handle_get(route: Route, context: RouteContext): Promise<void> {
 	const { request, response } = context;
 	const { template_main, template_pages } = await read_templates();
 	const { data, meta } = await route.controller(context);
@@ -34,7 +34,7 @@ export async function handle_get(route: Route, context: Context): Promise<void> 
 	response.body = rendered_app;
 }
 
-export async function handle_post(route: Route, context: Context): Promise<void> {
+export async function handle_post(route: Route, context: RouteContext): Promise<void> {
 	const { response } = context;
 	const { data } = await route.controller(context);
 
@@ -42,7 +42,7 @@ export async function handle_post(route: Route, context: Context): Promise<void>
 	response.body = JSON.stringify(data);
 }
 
-export async function handle_static(context: Context): Promise<void> {
+export async function handle_static(context: RouteContext): Promise<void> {
 	const { request, response } = context;
 	const url = new URL(request.url.href);
 
