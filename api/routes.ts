@@ -1,4 +1,4 @@
-import { index, page } from './controllers.ts'
+import { index, page } from './controllers.ts';
 
 export default [
 	{ path: '/:page_id', page: 'page.html', controller: page },
