@@ -1,6 +1,6 @@
 export default {
 	port: 3000,
-	url: "https://actual-production-url.com",
+	url: 'https://actual-production-url.com',
 
 	sanity: {
 		id: '32td7jzv',

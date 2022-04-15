@@ -7,11 +7,11 @@ export async function home() {
 
 	const data = {
 		description: 'This comes from controllers.ts. Returns data from sanity.',
-		from_sanity: await sanity_fetch(query, query_params)
-	}
+		from_sanity: await sanity_fetch(query, query_params),
+	};
 
 	const meta = {
-		title: 'STATIC TEST'
+		title: 'STATIC TEST',
 	};
 
 	return { data, meta };
@@ -21,11 +21,13 @@ export async function page(context: RouteContext) {
 	const data = {
 		description: 'This comes from controllers.ts. Returns a static object.',
 		params: context.params,
-		numbers: [1, 2, 3, 4]
+		numbers: [1, 2, 3, 4],
 	};
 
+	console.log('???????');
+
 	const meta = {
-		title: 'PAGE – STATIC TEST'
+		title: 'PAGE – STATIC TEST',
 	};
 
 	return { data, meta };
