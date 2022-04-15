@@ -1,35 +1,21 @@
-import { Route, RouteContext, ContextRequest, ContextResponse } from './types.ts';
-
-import { mimetype, render } from './dependencies.ts';
+import { Route, RouteContext } from './types.ts';
+import { config, app_meta, app_render } from './lib.ts';
+import { mimetype } from './dependencies.ts';
 import { read_templates } from './templates.ts';
-
-import meta_default from '../frontend/app/meta.ts';
-import render_filters from '../frontend/app/filters.ts';
 
 export async function handle_get(route: Route, context: RouteContext): Promise<void> {
 	const { request, response } = context;
 	const { template_main, template_pages } = await read_templates();
 	const { data, meta } = await route.controller(context);
 
-	const render_options = {
-		include_path: 'frontend/components/',
+	const render_data = {
+		request,
+		data,
+		meta: app_meta(meta, request.url),
 	};
 
-	const render_data = { request, data, meta: Object.assign(meta_default, meta) };
-
-	const rendered_page = await render(
-		template_pages[route.page],
-		render_data,
-		render_filters,
-		render_options
-	);
-
-	const rendered_app = await render(
-		template_main.replace('<!--RENDERED_PAGE-->', rendered_page),
-		render_data,
-		render_filters,
-		render_options
-	);
+	const rendered_page = await app_render(template_pages[route.page], render_data);
+	const rendered_app = await app_render(template_main.replace('<!--RENDERED_PAGE-->', rendered_page), render_data);
 
 	response.body = rendered_app;
 }
