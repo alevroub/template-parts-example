@@ -4,11 +4,15 @@ build_directory=dist/
 
 case $1 in
 	'dev')
+		deno run --no-check --unstable --allow-all --watch server/server.ts --mode development
+	;;
+
+	'dev_checks')
 		deno run --unstable --allow-all --watch server/server.ts --mode development
 	;;
 
 	'start')
-		deno run --no-check --unstable --allow-all server/server.ts --mode production
+		deno run --unstable --allow-all server/server.ts --mode production
 	;;
 
 	'build')
