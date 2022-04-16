@@ -24,8 +24,6 @@ export async function page(context: RouteContext) {
 		numbers: [1, 2, 3, 4],
 	};
 
-	console.log('???????');
-
 	const meta = {
 		title: 'PAGE – STATIC TEST',
 	};
