@@ -4,8 +4,8 @@ import { render } from './dependencies.ts';
 import api_config from '../api/config.js';
 import api_routes from '../api/routes.js';
 
-import frontend_meta from '../frontend/app/meta.ts';
-import frontend_filters from '../frontend/app/filters.ts';
+import frontend_meta from '../frontend/app/meta.js';
+import frontend_filters from '../frontend/app/filters.js';
 
 export const routes = api_routes.map(route => ({
 	...route,
