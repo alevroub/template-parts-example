@@ -1,3 +1,5 @@
+- must have
+	- cached responses from server
 - should have
 	- different paths for files in development/production
 		- a setup for deploying with minified files
