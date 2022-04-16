@@ -1,7 +1,6 @@
-import { RouteContext } from '../server/types.ts';
 import { sanity_fetch } from '../server/sanity.ts';
 
-export async function home() {
+export async function home(context) {
 	const query = `*[slug.current == $slug][0]`;
 	const query_params = { slug: 'alfa' };
 
@@ -17,7 +16,7 @@ export async function home() {
 	return { data, meta };
 }
 
-export async function page(context: RouteContext) {
+export async function page(context) {
 	const data = {
 		description: 'This comes from controllers.ts. Returns a static object.',
 		params: context.params,

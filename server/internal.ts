@@ -1,8 +1,8 @@
 import { development_mode } from './util.ts';
 import { render } from './dependencies.ts';
 
-import api_config from '../api/config.ts';
-import api_routes from '../api/routes.ts';
+import api_config from '../api/config.js';
+import api_routes from '../api/routes.js';
 
 import frontend_meta from '../frontend/app/meta.ts';
 import frontend_filters from '../frontend/app/filters.ts';

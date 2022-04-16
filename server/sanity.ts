@@ -1,4 +1,4 @@
-import config from '../api/config.ts'
+import { config } from './internal.ts';
 
 export async function sanity_fetch(query: string, params: Record<string, any>): Promise<any> {
 	const { id, version, dataset, cdn } = config.sanity;
