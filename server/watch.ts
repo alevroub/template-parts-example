@@ -7,9 +7,9 @@ const websocket_reconnection_delay = 1000;
 
 export const websockets: Set<WebSocket> = new Set();
 
-export function route_websockets(router_instance) {
+export function route_websockets(router_instance: any) {
 	if (development_mode) {
-		router_instance.get(websocket_endpoint, async context => {
+		router_instance.get(websocket_endpoint, async (context: any) => {
 			const socket = await context.upgrade();
 
 			websockets.add(socket);
@@ -28,7 +28,7 @@ export async function connect_watcher() {
 		const watcher = Deno.watchFs('./frontend');
 		const trigger_websocket_response = debounce(() => {
 			websockets.forEach(socket => {
-				log(`Watcher: reloaded page`, 'yellow');
+				log(`Watch: reloaded page`, 'yellow');
 				socket.send(websocket_trigger);
 			});
 		}, 80)
