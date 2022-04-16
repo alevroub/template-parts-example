@@ -1,12 +1,13 @@
+@import './reset.css';
 @import './variables.css';
 
-header {
-	background: var(--header-background);
-}
-
 body {
-	font-family: Arial;
+	font-family: 'Times New Roman';
 	font-size: 20px;
 	padding: 20px;
-	background: var(--body-background);
+}
+
+code, pre {
+	color: blue;
+	font-size: 0.8em;
 }
