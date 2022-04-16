@@ -17,7 +17,7 @@ export async function handle_get(route: Route, context: RouteContext): Promise<v
 	};
 
 	const rendered_page = await app_render(template_pages[route.page], render_data);
-	const rendered_app = await app_render(template_main.replace('<!--RENDERED_PAGE-->', rendered_page), render_data);
+	const rendered_app = await app_render(template_main.replace('<!--PAGE-->', rendered_page), render_data);
 
 	if (development_mode) {
 		response.body = rendered_app.replace('<head>', '<head>\n' + browser_websocket_client);
