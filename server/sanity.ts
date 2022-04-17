@@ -14,16 +14,19 @@ export async function sanity_fetch(query: string, params: Record<string, any>): 
 	);
 	const request_url = `https://${id}.${host}/v${version}/data/query/${dataset}?query=${encoded_query}${encoded_params}`;
 
-	const cached_result = await get_from_cache(query);
 
-	if (in_development_mode && cached_result) {
-		return cached_result;
-	} else {
-		const response = await fetch(request_url);
-		const { result } = await response.json();
+	if (in_development_mode) {
+		const cached_result = await get_from_cache(query);
 
-		store_in_cache(query, result);
-
-		return result;
+		if (cached_result) {
+			return cached_result;
+		}
 	}
+
+	const response = await fetch(request_url);
+	const { result } = await response.json();
+
+	store_in_cache(query, result);
+
+	return result;
 }
