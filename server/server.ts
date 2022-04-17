@@ -2,12 +2,12 @@ import { log } from './util.ts';
 import { oak_server, oak_router } from './dependencies.ts';
 import { handle_get, handle_post, handle_static } from './handlers.ts';
 import { routes, config } from './internal.ts';
-import { websockets, route_websockets, connect_watcher } from './watch.ts';
+import { route_websocket_endpoint, connect_frontend_file_watcher } from './watch.ts';
 
 const server = new oak_server();
 const router = new oak_router();
 
-route_websockets(router);
+route_websocket_endpoint(router);
 
 router.get('/style/(.*)', handle_static);
 router.get('/script/(.*)', handle_static);
@@ -24,4 +24,4 @@ server.listen({ port: config.port });
 log(`port: ${config.port}`, 'blue');
 log(`origin: ${config.origin}`, 'blue');
 
-connect_watcher();
+connect_frontend_file_watcher();

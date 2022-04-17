@@ -5,9 +5,9 @@ const websocket_endpoint = '/__autoreload';
 const websocket_trigger = 'trigger_refresh';
 const websocket_reconnection_delay = 1000;
 
-export const websockets: Set<WebSocket> = new Set();
+const websockets: Set<WebSocket> = new Set();
 
-export function route_websockets(router_instance: any) {
+export function route_websocket_endpoint(router_instance: any) {
 	if (in_development_mode) {
 		router_instance.get(websocket_endpoint, async (context: any) => {
 			const socket = await context.upgrade();
@@ -23,7 +23,7 @@ export function route_websockets(router_instance: any) {
 	}
 }
 
-export async function connect_watcher() {
+export async function connect_frontend_file_watcher() {
 	if (in_development_mode) {
 		const watcher = Deno.watchFs('./frontend');
 		const trigger_websocket_response = debounce(() => {
