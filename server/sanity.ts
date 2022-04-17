@@ -26,7 +26,9 @@ export async function sanity_fetch(query: string, params: Record<string, any>): 
 	const response = await fetch(request_url);
 	const { result } = await response.json();
 
-	store_in_cache(query, result);
+	if (in_development_mode) {
+		store_in_cache(query, result);
+	}
 
 	return result;
 }
