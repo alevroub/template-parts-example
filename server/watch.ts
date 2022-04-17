@@ -28,7 +28,7 @@ export async function connect_watcher() {
 		const watcher = Deno.watchFs('./frontend');
 		const trigger_websocket_response = debounce(() => {
 			websockets.forEach(socket => {
-				log(`Watch: reloaded page`, 'yellow');
+				log(`reloaded page`, 'yellow');
 				socket.send(websocket_trigger);
 			});
 		}, 80)

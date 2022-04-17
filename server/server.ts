@@ -21,7 +21,7 @@ for (const route of routes) {
 server.use(router.routes());
 server.listen({ port: config.port });
 
-log(`Port: ${config.port}`, 'blue');
-log(`Origin: ${config.origin}`, 'blue');
+log(`port: ${config.port}`, 'blue');
+log(`origin: ${config.origin}`, 'blue');
 
 connect_watcher();
