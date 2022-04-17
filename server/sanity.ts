@@ -1,5 +1,5 @@
 import { config } from './internal.ts';
-import { development_mode } from './util.ts';
+import { in_development_mode } from './util.ts';
 import { get_from_cache, store_in_cache } from '../server/cache.ts';
 
 export async function sanity_fetch(query: string, params: Record<string, any>): Promise<any> {
@@ -12,7 +12,7 @@ export async function sanity_fetch(query: string, params: Record<string, any>): 
 
 	const cached_result = await get_from_cache(query);
 
-	if (development_mode && cached_result) {
+	if (in_development_mode && cached_result) {
 		return cached_result;
 	} else {
 		const response = await fetch(request_url);

@@ -1,4 +1,4 @@
-import { log, development_mode } from './util.ts';
+import { log, in_development_mode } from './util.ts';
 import { debounce } from './dependencies.ts';
 
 const websocket_endpoint = '/__autoreload';
@@ -8,7 +8,7 @@ const websocket_reconnection_delay = 1000;
 export const websockets: Set<WebSocket> = new Set();
 
 export function route_websockets(router_instance: any) {
-	if (development_mode) {
+	if (in_development_mode) {
 		router_instance.get(websocket_endpoint, async (context: any) => {
 			const socket = await context.upgrade();
 
@@ -24,7 +24,7 @@ export function route_websockets(router_instance: any) {
 }
 
 export async function connect_watcher() {
-	if (development_mode) {
+	if (in_development_mode) {
 		const watcher = Deno.watchFs('./frontend');
 		const trigger_websocket_response = debounce(() => {
 			websockets.forEach(socket => {
