@@ -1,13 +1,10 @@
 import { Context, Request, Response } from './dependencies.ts';
 
-export {
-	Request as ContextRequest,
-	Response as ContextResponse
-};
+export { Request as ContextRequest, Response as ContextResponse };
 
 export type RouteContext = Context & {
-	params?: any
-}
+	params?: any;
+};
 
 export type RouteController = (context: Context) => Promise<{
 	data: any;

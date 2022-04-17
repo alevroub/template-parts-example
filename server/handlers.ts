@@ -3,7 +3,7 @@ import { config, app_meta, app_render } from './internal.ts';
 import { mimetype } from './dependencies.ts';
 import { read_templates } from './templates.ts';
 import { in_development_mode } from './util.ts';
-import { browser_websocket_client } from './watch.ts'
+import { browser_websocket_client } from './watch.ts';
 
 export async function handle_get(route: Route, context: RouteContext): Promise<void> {
 	const { request, response } = context;

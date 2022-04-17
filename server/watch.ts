@@ -31,11 +31,11 @@ export async function connect_frontend_file_watcher() {
 				log(`reloaded page`, 'yellow');
 				socket.send(websocket_trigger);
 			});
-		}, 80)
+		}, 80);
 
 		for await (const event of watcher) {
 			if (!['any', 'access'].includes(event.kind)) {
-				trigger_websocket_response()
+				trigger_websocket_response();
 			}
 		}
 	}
@@ -75,4 +75,4 @@ export const browser_websocket_client = `<script>
 
 		connect_websocket();
 	})();
-</script>`
+</script>`;
