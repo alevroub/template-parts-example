@@ -7,7 +7,7 @@ case $1 in
 		deno run --no-check --unstable --allow-all --watch server/server.ts --mode development
 	;;
 
-	'dev_checks')
+	'dev_check')
 		deno run --unstable --allow-all --watch server/server.ts --mode development
 	;;
 
