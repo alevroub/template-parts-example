@@ -4,28 +4,21 @@ export async function home(context) {
 	const query = `*[slug.current == $slug][0]`;
 	const query_params = { slug: 'alfa' };
 
-	const data = {
-		description: 'This comes from controllers.ts. Returns data from sanity.',
-		from_sanity: await sanity_fetch(query, query_params),
-	};
-
-	const meta = {
-		title: 'STATIC TEST',
-	};
+	const data = await sanity_fetch(query, query_params);
+	const meta = { title: 'STATIC TEST' };
 
 	return { data, meta };
 }
 
 export async function page(context) {
-	const data = {
-		description: 'This comes from controllers.ts. Returns a static object.',
-		params: context.params,
-		numbers: [1, 2, 3, 4],
-	};
+	return {
+		data: {
+			params: context.params,
+			numbers: [1, 2, 3, 4],
+		},
 
-	const meta = {
-		title: 'PAGE – STATIC TEST',
+		meta: {
+			title: 'PAGE – STATIC TEST',
+		}
 	};
-
-	return { data, meta };
 }
