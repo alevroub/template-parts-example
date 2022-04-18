@@ -1,5 +1,5 @@
 import { config } from './internal.ts';
-import { in_development_mode } from './util.ts';
+import { log, in_development_mode } from './util.ts';
 import { get_from_cache, store_in_cache } from '../server/cache.ts';
 
 export async function sanity_query(query: string, params: Record<string, any>): Promise<any> {
@@ -13,9 +13,13 @@ export async function sanity_query(query: string, params: Record<string, any>): 
 
 	const request_url = `https://${id}.${host}/v${version}/data/query/${dataset}?query=${encoded_query}${encoded_params}`;
 	const response = await fetch(request_url);
-	const { result } = await response.json();
+	const response_json = await response.json();
 
-	return result;
+	if (response.status < 400) {
+		return response_json.result;
+	} else {
+		throw new Error(response_json.message);
+	}
 }
 
 export async function sanity_fetch(query: string, params: Record<string, any>): Promise<any> {
@@ -27,11 +31,16 @@ export async function sanity_fetch(query: string, params: Record<string, any>): 
 		}
 	}
 
-	const result = await sanity_query(query, params);
+	try {
+		const result = await sanity_query(query, params);
 
-	if (in_development_mode) {
-		store_in_cache(query, result);
+		if (in_development_mode) {
+			store_in_cache(query, result);
+		}
+
+		return result;
+	} catch (error) {
+		log('sanity error: ' + error.message, 'red');
+		return null;
 	}
-
-	return result;
 }
