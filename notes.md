@@ -1,3 +1,8 @@
+- must have
+	- error handling
+		- sanity
+		- config.js
+		- meta.js
 - should have
 	- different paths for files in development/production
 		- a setup for deploying with minified files
