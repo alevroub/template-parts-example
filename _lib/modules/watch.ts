@@ -1,13 +1,13 @@
-import { log, in_development_mode } from './util.ts';
-import { debounce } from './dependencies.ts';
+import { debounce } from '../global/dependencies.ts';
+import { log, in_development_mode } from '../global/util.ts';
 
 const websocket_endpoint = '/__autoreload';
-const websocket_trigger = 'trigger_refresh';
+const websocket_reload_event = 'emit_reload';
 const websocket_reconnection_delay = 1000;
 
 const websockets: Set<WebSocket> = new Set();
 
-export function route_websocket_endpoint(router_instance: any) {
+export function route_file_watcher(router_instance: any) {
 	if (in_development_mode) {
 		router_instance.get(websocket_endpoint, async (context: any) => {
 			const socket = await context.upgrade();
@@ -23,13 +23,17 @@ export function route_websocket_endpoint(router_instance: any) {
 	}
 }
 
-export async function connect_frontend_file_watcher() {
+export function inject_file_watcher_client(template) {
+	return template.replace('<head>', '<head>\n' + browser_websocket_client);
+}
+
+export async function start_file_watcher() {
 	if (in_development_mode) {
 		const watcher = Deno.watchFs('./frontend');
 		const trigger_websocket_response = debounce(() => {
 			websockets.forEach(socket => {
 				log(`reloaded page`, 'yellow');
-				socket.send(websocket_trigger);
+				socket.send(websocket_reload_event);
 			});
 		}, 80);
 
@@ -60,7 +64,7 @@ export const browser_websocket_client = `<script>
 			socket = new WebSocket(websocket_url);
 			socket.addEventListener('open', callback);
 			socket.addEventListener('message', event => {
-				if (event.data === '${websocket_trigger}') {
+				if (event.data === '${websocket_reload_event}') {
 					refresh_client();
 				}
 			});

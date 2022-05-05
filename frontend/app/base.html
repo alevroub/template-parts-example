@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ meta.lang }}">
+<html lang="{{ meta.language }}">
 	<head>
 		<meta charset="UTF-8" />
 
@@ -9,7 +9,8 @@
 		<meta name="theme-color" content="{{ meta.theme }}" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-		{# <link rel="icon" href="../assets/favicon.png" /> #}
+		{# <link rel="icon" href="data:,"> #}
+		{# <link rel="icon" href="/assets/favicon.png" /> #}
 
 		<link rel="stylesheet" type="text/css" href="/style/fonts.css" />
 		<link rel="stylesheet" type="text/css" href="/style/app.css" />
@@ -23,19 +24,19 @@
 		<meta property="og:locale" content="{{ meta.locale }}" />
 		<meta property="og:type" content="website" />
 
-		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:site" content="" />
+		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:title" content="{{ meta.title }}" />
 		<meta name="twitter:description" content="{{ meta.description }}" />
 		<meta name="twitter:image" content="{{ meta.image }}" />
 	</head>
 
 	<body>
-		{% include "header.html" %}
+		{{ import "header.html" }}
 
-		<!--PAGE-->
+		<!--CURRENT_PAGE-->
 
-		{% include "footer.html" %}
+		{{ import "footer.html" }}
 
 		<script type="module" src="/script/app.js"></script>
 	</body>
