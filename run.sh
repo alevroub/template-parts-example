@@ -1,18 +1,14 @@
 #!/bin/zsh
 
-build_directory=dist/
+build_directory=frontend/assets/
 
 case $1 in
-	'dev')
-		deno run --no-check --unstable --allow-all --watch server/server.ts --mode development
+	'')
+		deno run --no-check --allow-net --allow-read --allow-write --watch server/server.ts --mode development
 	;;
 
-	'dev_check')
-		deno run --unstable --allow-all --watch server/server.ts --mode development
-	;;
-
-	'start')
-		deno run --unstable --allow-all server/server.ts --mode production
+	'check')
+		deno run --allow-net --allow-read --allow-write --watch server/server.ts --mode development
 	;;
 
 	'build')
