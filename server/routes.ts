@@ -1,4 +1,4 @@
-import { home, page, } from './controllers.ts'
+import { home, page } from './controllers.ts';
 
 export default [
 	{
@@ -15,4 +15,4 @@ export default [
 		path: '/(.*)',
 		page: '404.html',
 	},
-]
+];

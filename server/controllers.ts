@@ -1,7 +1,7 @@
 import { sanity_client } from 'https://raw.githubusercontent.com/alevroub/nett/main/mod.ts';
-import setup from './server.setup.ts';
+import config from './config.ts';
 
-const sanity = sanity_client(setup);
+const sanity = sanity_client(config);
 
 export async function home(context: any) {
 	const query = `*[_type == 'font'][0]`;
