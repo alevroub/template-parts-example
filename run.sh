@@ -11,6 +11,10 @@ case $1 in
 		deno run --allow-net --allow-read --allow-write --watch server/server.ts --mode development
 	;;
 
+	'cache')
+		deno cache --reload server/server.ts
+	;;
+
 	'build')
 		esbuild --bundle app/style/app.css --outdir=$build_directory --minify &&
 		esbuild --bundle app/script/app.js --outdir=$build_directory --minify
