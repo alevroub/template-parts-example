@@ -1,9 +1,12 @@
 import { log, in_development_mode, import_user_server_setup } from '../global/util.ts';
 import { get_from_cache, store_in_cache } from './cache.ts';
 
-export async function sanity_client() {
-	const user_setup = await import_user_server_setup();
-	const { id, version, dataset, cdn, token } = user_setup.sanity;
+export function sanity_client(user_setup) {
+	const { id, dataset, version, cdn, token } = user_setup;
+
+	if (!id || !dataset) {
+		throw new Error('misconfigured client. project id and/or dataset are undefined');
+	}
 
 	async function client_fetch(query: string, params: Record<string, any>): Promise<any> {
 		const host = cdn === true ? 'apicdn.sanity.io' : 'api.sanity.io';
