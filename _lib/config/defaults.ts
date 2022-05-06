@@ -1,59 +1,51 @@
+import { in_development } from '../global/util.ts';
 export const default_setup = {
 	port: 3000,
 
 	get origin() {
-		return this.website.meta.url;
+		return in_development ? `http://localhost:${this.port}` : this.meta.url;
 	},
 
 	get origins_allowed() {
 		return [this.origin];
 	},
 
-	website: {
-		meta: {
-			title: 'Default title',
-			description: 'Default description',
-			image: 'assets/default.png',
-			url: 'https://production.url.com',
-			theme: '#ffffff',
-			language: 'no',
-			locale: 'nb_NO',
-		},
+	meta: {
+		title: 'Default title',
+		description: 'Default description',
+		image: 'assets/default.png',
+		url: 'https://production.url.com',
+		theme: '#ffffff',
+		language: 'no',
+		locale: 'nb_NO',
 	},
 
-	router: {
-		routes: [],
-		routes_static: [
-			'/assets/(.*)',
-			'/static/(.*)',
-			'/script/(.*)',
-			'/style/(.*)'
-		],
-	},
+	static: [
+		'/assets/(.*)',
+		'/static/(.*)',
+		'/script/(.*)',
+		'/style/(.*)'
+	],
 
-	engine: {
-		filters: {
-			json: (value: object) => {
-				return JSON.stringify(value, null, 3);
-			},
-
-			escape: (value: string) => {
-				const map = {
-					'&': '&amp;',
-					'<': '&lt;',
-					'>': '&gt;',
-					'"': '&quot;',
-					"'": '&#39;',
-					'`': '&#x60;',
-					'=': '&#x3D;',
-					'/': '&#x2F;',
-				};
-
-				return value.replace(/[&<>"'`=\/]/g, s => map[s]);
-			},
+	filters: {
+		json: (value: object) => {
+			return JSON.stringify(value, null, 3);
 		},
 
-		show_comments: false,
+		escape: (value: string) => {
+			const map: Record<string, string> = {
+				'&': '&amp;',
+				'<': '&lt;',
+				'>': '&gt;',
+				'"': '&quot;',
+				"'": '&#39;',
+				'`': '&#x60;',
+				'=': '&#x3D;',
+				'/': '&#x2F;',
+			};
+
+			return value.replace(/[&<>"'`=\/]/g, (s: string) => map[s]);
+		},
 	},
 
 	framework: {

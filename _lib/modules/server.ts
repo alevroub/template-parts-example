@@ -95,16 +95,16 @@ async function handle_get_request(route: Route, context: RouteContext): Promise<
 		};
 
 		return {
-			...server_setup.website.meta,
+			...server_setup.meta,
 			...route_meta,
 			...computed_meta,
 		};
 	}
 
 	function render_template(template: string, data: any) {
-		const filters = server_setup.engine.filters;
+		const filters = server_setup.filters;
 		const options = {
-			show_comments: server_setup.engine.show_comments,
+			show_comments: server_setup.show_comments,
 			import_path: server_setup.framework.components,
 		};
 
@@ -202,7 +202,7 @@ function new_server(setup, routes) {
 
 		route_file_watcher(router);
 
-		for (const route of server_setup.router.routes_static) {
+		for (const route of server_setup.static) {
 			router.get(route, handle_static_files);
 		}
 
