@@ -4,19 +4,41 @@ import { get_from_cache, store_in_cache } from './cache.ts';
 export function sanity_client(user_setup) {
 	const { id, dataset, version, cdn, token } = user_setup;
 
-	if (!id || !dataset) {
-		throw new Error('misconfigured client. project id and/or dataset are undefined');
+	if (!id || !dataset || !version) {
+		throw new Error('misconfigured sanity client. project id, dataset, and api version need to be defined');
 	}
 
 	async function client_fetch(query: string, params: Record<string, any>): Promise<any> {
 		const host = cdn === true ? 'apicdn.sanity.io' : 'api.sanity.io';
+
 		const encoded_query = encodeURIComponent(query);
-		const encoded_params = Object.keys(params).reduce((sequence, key) => {
-			return sequence + `&${encodeURIComponent(`$${key}`)}=${encodeURIComponent(JSON.stringify(params[key]))}`;
+		const encoded_params = Object.keys(params).reduce((pairs, param_key) => {
+			const key = encodeURIComponent(`$${param_key}`);
+			const value = encodeURIComponent(JSON.stringify(params[param_key]));
+			return pairs + `&${key}=${value}`;
 		}, '');
 
-		const request_url = `https://${id}.${host}/v${version}/data/query/${dataset}?query=${encoded_query}${encoded_params}`;
-		const response = await fetch(request_url);
+		const query_string = `?query=${encoded_query}${encoded_params}`;
+		const switch_method = query_string.length > 11264;
+
+		const request_options = {
+			method: 'GET',
+			headers: {}
+		}
+
+		if (token) {
+			request_options.headers['Authorization'] = `Bearer ${token}`;
+		}
+
+		if (switch_method) {
+			request_options.headers['Content-Type'] = 'application/json';
+			request_options.method = 'POST';
+			request_options.body = JSON.stringify({ query, params });
+		}
+
+		const request_url = `https://${id}.${host}/v${version}/data/query/${dataset}${query_string}`;
+
+		const response = await fetch(request_url, request_options);
 		const response_json = await response.json();
 
 		if (response.status < 400) {
@@ -26,7 +48,7 @@ export function sanity_client(user_setup) {
 		}
 	}
 
-	async function client_fetch_cache(query: string, params: Record<string, any>): Promise<any> {
+	async function client_fetch_and_cache(query: string, params: Record<string, any>): Promise<any> {
 		if (in_development) {
 			const cached_result = await get_from_cache(query);
 
@@ -50,6 +72,6 @@ export function sanity_client(user_setup) {
 	}
 
 	return {
-		fetch: client_fetch_cache
+		fetch: client_fetch_and_cache
 	}
 }
