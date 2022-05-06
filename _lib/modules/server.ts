@@ -44,7 +44,7 @@ async function handle_get_request(route: Route, context: RouteContext): Promise<
 
 	// just ignore automatic favicon.ico requests (!)
 	if (context.request.url.pathname === '/favicon.ico') {
-		response.status = 200;
+		context.response.status = 200;
 	}
 
 	const { request, response } = context;
