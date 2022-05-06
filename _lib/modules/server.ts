@@ -31,7 +31,6 @@ type Route = {
 };
 
 let server_setup = default_setup;
-let server_templates = {};
 
 async function handle_get_request(route: Route, context: RouteContext): Promise<void> {
 	/**
@@ -48,7 +47,7 @@ async function handle_get_request(route: Route, context: RouteContext): Promise<
 	}
 
 	const { request, response } = context;
-	const { template_main, template_pages } = server_templates;
+	const { template_main, template_pages } = await load_templates();
 
 	let route_meta = {};
 	let route_data = {};
@@ -68,19 +67,27 @@ async function handle_get_request(route: Route, context: RouteContext): Promise<
 	}
 
 	const route_render_data = {
-		request: request,
-		data: route_data,
-		meta: merge_meta_object(route_meta, request.url),
+		$request: request,
+		$meta: merge_meta_object(route_meta, request.url),
+		$data: route_data,
+		...route_data,
 	};
 
-	const rendered_page = await render_template(template_pages[route.page], route_render_data);
-	const rendered_app = await render_template(template_main.replace('<!--CURRENT_PAGE-->', rendered_page), route_render_data);
+	try {
+		const rendered_page = await render_template(template_pages[route.page], route_render_data);
+		const rendered_app = await render_template(template_main.replace('<!--CURRENT_PAGE-->', rendered_page), route_render_data);
 
-	if (in_development) {
-		response.body = inject_file_watcher_client(rendered_app);
-	} else {
-		response.body = rendered_app;
+		if (in_development) {
+			response.body = inject_file_watcher_client(rendered_app);
+		} else {
+			response.body = rendered_app;
+		}
+	} catch(error) {
+		log('rendering error: ' + error.message, 'red');
+		response.body = error.message;
+		return;
 	}
+
 
 	function merge_meta_object(route_meta: object, route_url: URL) {
 		const computed_meta = {
@@ -102,6 +109,27 @@ async function handle_get_request(route: Route, context: RouteContext): Promise<
 		};
 
 		return render(template, data, filters, options);
+	}
+
+	async function load_templates() {
+		async function load_main_template() {
+			return Deno.readTextFile(server_setup.framework.template);
+		}
+
+		async function load_page_templates() {
+			const pages = {};
+
+			for await (const page of Deno.readDir(server_setup.framework.pages)) {
+				pages[page.name] = await Deno.readTextFile(`${server_setup.framework.pages}${page.name}`);
+			}
+
+			return pages;
+		}
+
+		return {
+			template_main: await load_main_template(),
+			template_pages: await load_page_templates(),
+		};
 	}
 }
 
@@ -136,34 +164,8 @@ async function handle_static_files(context: RouteContext): Promise<void> {
 	}
 }
 
-async function setup_settings(user_settings) {
-	server_setup = deep_merge(default_setup, user_settings);
-	server_templates = await load_templates();
-
-	async function load_templates() {
-		async function load_main_template() {
-			return Deno.readTextFile(server_setup.framework.template);
-		}
-
-		async function load_page_templates() {
-			const pages = {};
-
-			for await (const page of Deno.readDir(server_setup.framework.pages)) {
-				pages[page.name] = await Deno.readTextFile(`${server_setup.framework.pages}${page.name}`);
-			}
-
-			return pages;
-		}
-
-		return {
-			template_main: await load_main_template(),
-			template_pages: await load_page_templates()
-		}
-	}
-};
-
-async function new_server(setup) {
-	await setup_settings(setup);
+function new_server(setup, routes) {
+	server_setup = deep_merge(default_setup, setup);
 
 	function setup_server() {
 		const server = new oak_server();
@@ -172,7 +174,7 @@ async function new_server(setup) {
 			instance: server,
 
 			route: router_instance => {
-				for (const route of server_setup.router.routes) {
+				for (const route of routes) {
 					router_instance.get(route.path, context => handle_get_request(route, context));
 				}
 
@@ -182,6 +184,11 @@ async function new_server(setup) {
 			start: () => {
 				log(`port: ${server_setup.port}`, 'blue');
 				log(`origin: ${server_setup.origin}`, 'blue');
+
+				if (server_setup.sanity) {
+					log(`sanity id: ${server_setup.sanity.id}`, 'blue');
+					log(`sanity dataset: ${server_setup.sanity.dataset}`, 'blue');
+				}
 
 				server.listen({ port: server_setup.port });
 
@@ -204,8 +211,8 @@ async function new_server(setup) {
 
 	return {
 		server: setup_server(),
-		router: setup_router()
-	}
+		router: setup_router(),
+	};
 }
 
 export { log, new_server, in_development };
