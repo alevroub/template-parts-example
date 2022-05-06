@@ -18,17 +18,17 @@ type RouteContext = Context & {
 };
 
 type RouteController = (context: Context) => Promise<{
-	data: any;
 	meta: Record<string, string>;
+	data: any;
 }>;
 
 type Route = {
 	path: string;
 	page: string;
-	controller: RouteController;
+	controller?: RouteController;
 };
 
-let server_setup = default_setup;
+let server_setup: Record<string, any> = default_setup;
 
 async function handle_get_request(route: Route, context: RouteContext): Promise<void> {
 	/**
@@ -73,19 +73,21 @@ async function handle_get_request(route: Route, context: RouteContext): Promise<
 
 	try {
 		const rendered_page = await render_template(template_pages[route.page], route_render_data);
-		const rendered_app = await render_template(template_main.replace('<!--CURRENT_PAGE-->', rendered_page), route_render_data);
+		const rendered_app = await render_template(
+			template_main.replace('<!--CURRENT_PAGE-->', rendered_page),
+			route_render_data
+		);
 
 		if (in_development) {
 			response.body = inject_file_watcher_client(rendered_app);
 		} else {
 			response.body = rendered_app;
 		}
-	} catch(error) {
+	} catch (error) {
 		log('rendering error: ' + error.message, 'red');
 		response.body = error.message;
 		return;
 	}
-
 
 	function merge_meta_object(route_meta: object, route_url: URL) {
 		const computed_meta = {
@@ -115,7 +117,7 @@ async function handle_get_request(route: Route, context: RouteContext): Promise<
 		}
 
 		async function load_page_templates() {
-			const pages = {};
+			const pages: Record<string, string> = {};
 
 			for await (const page of Deno.readDir(server_setup.framework.pages)) {
 				pages[page.name] = await Deno.readTextFile(`${server_setup.framework.pages}${page.name}`);
@@ -140,10 +142,16 @@ async function handle_post_request(route: Route, context: RouteContext): Promise
 	 * */
 
 	const { response } = context;
-	const { data } = await route.controller(context);
+
+	let route_data = {};
+
+	if (route.controller !== undefined) {
+		const controller_result = await route.controller(context);
+		route_data = controller_result.data || {};
+	}
 
 	response.headers = new Headers({ 'content-type': 'application/json' });
-	response.body = JSON.stringify(data);
+	response.body = JSON.stringify(route_data);
 }
 
 async function handle_static_files(context: RouteContext): Promise<void> {
@@ -162,18 +170,18 @@ async function handle_static_files(context: RouteContext): Promise<void> {
 	}
 }
 
-function new_server(setup, routes) {
+function new_server(setup: object, routes: Route[]) {
 	server_setup = deep_merge(default_setup, setup);
 
 	function setup_server() {
-		const server = new oak_server();
+		const server = new Application();
 
 		return {
 			instance: server,
 
-			route: router_instance => {
+			route: (router_instance: Router) => {
 				for (const route of routes) {
-					router_instance.get(route.path, context => handle_get_request(route, context));
+					router_instance.get(route.path, (context: RouteContext) => handle_get_request(route, context));
 				}
 
 				server.use(router_instance.routes());
@@ -184,8 +192,8 @@ function new_server(setup, routes) {
 				log(`origin: ${server_setup.origin}`, 'blue');
 
 				if (server_setup.sanity) {
-					log(`sanity id: ${server_setup.sanity.id}`, 'blue');
-					log(`sanity dataset: ${server_setup.sanity.dataset}`, 'blue');
+					log(`id: ${server_setup.sanity.id}`, 'blue');
+					log(`dataset: ${server_setup.sanity.dataset}`, 'blue');
 				}
 
 				server.listen({ port: server_setup.port });
@@ -196,7 +204,7 @@ function new_server(setup, routes) {
 	}
 
 	function setup_router() {
-		const router = new oak_router();
+		const router = new Router();
 
 		route_file_watcher(router);
 

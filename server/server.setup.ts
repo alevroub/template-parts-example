@@ -15,7 +15,7 @@ export default {
 	},
 
 	filters: {
-		uppercase: value => {
+		uppercase: (value: any) => {
 			return value.toString().toUpperCase();
 		},
 	},

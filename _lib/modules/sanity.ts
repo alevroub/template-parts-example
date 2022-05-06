@@ -1,7 +1,7 @@
-import { log, in_development, import_user_server_setup } from '../global/util.ts';
+import { log, in_development } from '../global/util.ts';
 import { get_from_cache, store_in_cache } from './cache.ts';
 
-export function sanity_client(user_setup) {
+export function sanity_client(user_setup: any) {
 	const { id, dataset, version, cdn, token } = user_setup.sanity;
 
 	if (!id || !dataset || !version) {
@@ -23,9 +23,10 @@ export function sanity_client(user_setup) {
 
 		let request_url = `https://${id}.${host}/v${version}/data/query/${dataset}`;
 
-		const request_options = {
+		const request_options: any = {
 			method: 'GET',
 			headers: {},
+			body: null
 		};
 
 		if (token) {
@@ -50,7 +51,7 @@ export function sanity_client(user_setup) {
 		}
 	}
 
-	async function client_fetch_and_cache(query: string, params: Record<string, any>): Promise<any> {
+	async function client_fetch_and_cache(query: string, params?: Record<string, any>): Promise<any> {
 		try {
 			if (in_development) {
 				const cached_result = await get_from_cache(query);

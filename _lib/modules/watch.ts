@@ -7,7 +7,7 @@ const websocket_reconnection_delay = 1000;
 
 const websockets: Set<WebSocket> = new Set();
 
-export function route_file_watcher(router_instance: any) {
+export function route_file_watcher(router_instance: any): void {
 	if (in_development) {
 		router_instance.get(websocket_endpoint, async (context: any) => {
 			const socket = await context.upgrade();
@@ -23,11 +23,11 @@ export function route_file_watcher(router_instance: any) {
 	}
 }
 
-export function inject_file_watcher_client(template) {
+export function inject_file_watcher_client(template: string): string {
 	return template.replace('<head>', '<head>\n' + browser_websocket_client);
 }
 
-export async function start_file_watcher() {
+export async function start_file_watcher(): Promise<void> {
 	if (in_development) {
 		const watcher = Deno.watchFs('./frontend');
 		const trigger_websocket_response = debounce(() => {

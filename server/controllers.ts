@@ -3,7 +3,7 @@ import setup from './server.setup.ts';
 
 const sanity = sanity_client(setup);
 
-export async function home(context) {
+export async function home(context: any) {
 	const query = `*[_type == 'font'][0]`;
 
 	const data = await sanity.fetch(query);
@@ -12,7 +12,7 @@ export async function home(context) {
 	return { meta, data };
 }
 
-export async function page(context) {
+export async function page(context: any) {
 	const data = {
 		params: context.params,
 		numbers: [1, 2, 3, 4],
