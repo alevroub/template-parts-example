@@ -1,5 +1,5 @@
 import { debounce } from '../global/dependencies.ts';
-import { log, in_development_mode } from '../global/util.ts';
+import { log, in_development } from '../global/util.ts';
 
 const websocket_endpoint = '/__autoreload';
 const websocket_reload_event = 'emit_reload';
@@ -8,7 +8,7 @@ const websocket_reconnection_delay = 1000;
 const websockets: Set<WebSocket> = new Set();
 
 export function route_file_watcher(router_instance: any) {
-	if (in_development_mode) {
+	if (in_development) {
 		router_instance.get(websocket_endpoint, async (context: any) => {
 			const socket = await context.upgrade();
 
@@ -28,7 +28,7 @@ export function inject_file_watcher_client(template) {
 }
 
 export async function start_file_watcher() {
-	if (in_development_mode) {
+	if (in_development) {
 		const watcher = Deno.watchFs('./frontend');
 		const trigger_websocket_response = debounce(() => {
 			websockets.forEach(socket => {

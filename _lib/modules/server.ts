@@ -11,7 +11,7 @@ import {
 	Response,
 } from '../global/dependencies.ts';
 
-import { log, deep_merge, import_user_server_setup, in_development_mode } from '../global/util.ts';
+import { log, deep_merge, import_user_server_setup, in_development } from '../global/util.ts';
 import { default_setup } from '../config/defaults.ts';
 import { start_file_watcher, route_file_watcher, inject_file_watcher_client } from './watch.ts';
 
@@ -76,7 +76,7 @@ async function handle_get_request(route: Route, context: RouteContext): Promise<
 	const rendered_page = await render_template(template_pages[route.page], route_render_data);
 	const rendered_app = await render_template(template_main.replace('<!--CURRENT_PAGE-->', rendered_page), route_render_data);
 
-	if (in_development_mode) {
+	if (in_development) {
 		response.body = inject_file_watcher_client(rendered_app);
 	} else {
 		response.body = rendered_app;
@@ -208,4 +208,4 @@ async function new_server(setup) {
 	}
 }
 
-export { log, new_server, in_development_mode };
+export { log, new_server, in_development };

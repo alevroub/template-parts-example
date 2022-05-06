@@ -1,4 +1,4 @@
-import { log, in_development_mode, import_user_server_setup } from '../global/util.ts';
+import { log, in_development, import_user_server_setup } from '../global/util.ts';
 import { get_from_cache, store_in_cache } from './cache.ts';
 
 export function sanity_client(user_setup) {
@@ -27,7 +27,7 @@ export function sanity_client(user_setup) {
 	}
 
 	async function client_fetch_cache(query: string, params: Record<string, any>): Promise<any> {
-		if (in_development_mode) {
+		if (in_development) {
 			const cached_result = await get_from_cache(query);
 
 			if (cached_result) {
@@ -38,7 +38,7 @@ export function sanity_client(user_setup) {
 		try {
 			const result = await client_fetch(query, params);
 
-			if (in_development_mode) {
+			if (in_development) {
 				store_in_cache(query, result);
 			}
 

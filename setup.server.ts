@@ -1,4 +1,4 @@
-// import { in_development_mode } from './_lib/mod.ts';
+// import { in_development } from './_lib/mod.ts';
 import { page, home } from './server/controllers.ts'
 
 export default {
