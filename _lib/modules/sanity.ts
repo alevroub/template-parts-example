@@ -21,10 +21,12 @@ export function sanity_client(user_setup) {
 		const query_string = `?query=${encoded_query}${encoded_params}`;
 		const switch_method = query_string.length > 11264;
 
+		let request_url = `https://${id}.${host}/v${version}/data/query/${dataset}`;
+
 		const request_options = {
 			method: 'GET',
-			headers: {}
-		}
+			headers: {},
+		};
 
 		if (token) {
 			request_options.headers['Authorization'] = `Bearer ${token}`;
@@ -34,9 +36,9 @@ export function sanity_client(user_setup) {
 			request_options.headers['Content-Type'] = 'application/json';
 			request_options.method = 'POST';
 			request_options.body = JSON.stringify({ query, params });
+		} else {
+			request_url += query_string;
 		}
-
-		const request_url = `https://${id}.${host}/v${version}/data/query/${dataset}${query_string}`;
 
 		const response = await fetch(request_url, request_options);
 		const response_json = await response.json();
@@ -72,6 +74,6 @@ export function sanity_client(user_setup) {
 	}
 
 	return {
-		fetch: client_fetch_and_cache
-	}
+		fetch: client_fetch_and_cache,
+	};
 }
