@@ -28,12 +28,3 @@ export function deep_merge(a: object, b: object) {
 
 	return c;
 }
-
-export async function import_user_server_setup(): object {
-	const user_setup_filename = '/server/setup.ts';
-	const user_setup = (await import(path_join(Deno.cwd(), user_setup_filename))).default;
-
-	log('dynamic import', 'green')
-
-	return user_setup;
-}

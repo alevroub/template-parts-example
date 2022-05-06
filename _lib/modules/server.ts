@@ -11,7 +11,7 @@ import {
 	Response,
 } from '../global/dependencies.ts';
 
-import { log, deep_merge, import_user_server_setup, in_development } from '../global/util.ts';
+import { log, deep_merge, in_development } from '../global/util.ts';
 import { default_setup } from '../config/defaults.ts';
 import { start_file_watcher, route_file_watcher, inject_file_watcher_client } from './watch.ts';
 
