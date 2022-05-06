@@ -1,4 +1,4 @@
-import { new_server } from 'https://raw.githubusercontent.com/alevroub/nett/main/mod.ts';
+import { new_server } from 'https://server.boing.link';
 
 const config = {};
 const routes = [
