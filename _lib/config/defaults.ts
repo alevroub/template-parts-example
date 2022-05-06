@@ -57,7 +57,7 @@ export const default_setup = {
 	},
 
 	framework: {
-		template: 'frontend/app/base.html',
+		template: 'frontend/app/app.html',
 		source: 'frontend/',
 		components: 'frontend/components/',
 		pages: 'frontend/pages/',
