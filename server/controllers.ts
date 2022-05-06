@@ -1,4 +1,4 @@
-import { sanity_client } from '../_lib/mod.ts';
+import { sanity_client } from 'https://raw.githubusercontent.com/alevroub/nett/main/mod.ts';
 import setup from './server.setup.ts';
 
 const sanity = sanity_client(setup);

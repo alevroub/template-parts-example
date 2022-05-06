@@ -1,4 +1,4 @@
-import { in_development } from '../_lib/mod.ts';
+import { in_development } from 'https://raw.githubusercontent.com/alevroub/nett/main/mod.ts';
 
 export default {
 	meta: {
