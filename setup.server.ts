@@ -1,6 +1,7 @@
-import { page, home } from './controllers.ts'
+// import { in_development_mode } from './_lib/mod.ts';
+import { page, home } from './server/controllers.ts'
 
-export const setup = {
+export default {
 	website: {
 		meta: {
 			title: 'My title',
@@ -13,12 +14,12 @@ export const setup = {
 			{
 				path: '/:page_id',
 				page: 'page.html',
-				controller: page
+				controller: page,
 			},
 			{
 				path: '/',
 				page: 'home.html',
-				controller: home
+				controller: home,
 			},
 			{
 				path: '/(.*)',
@@ -34,11 +35,4 @@ export const setup = {
 			},
 		},
 	},
-
-	sanity: {
-		id: '32td7jzv',
-		dataset: 'production',
-		version: '2022-05-01',
-		cdn: true
-	}
 };
