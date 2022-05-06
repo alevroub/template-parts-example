@@ -1,7 +1,7 @@
-import { init } from '../_lib/mod.ts';
-import { setup } from './setup.ts';
+import { new_server } from '../_lib/mod.ts';
+import setup from '../setup.server.ts';
 
-const { server, router } = await init(setup);
+const { server, router } = await new_server(setup);
 
 server.route(router);
 server.start();

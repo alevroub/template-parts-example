@@ -162,8 +162,8 @@ async function setup_settings(user_settings) {
 	}
 };
 
-async function init(user_settings) {
-	await setup_settings(user_settings);
+async function new_server(setup) {
+	await setup_settings(setup);
 
 	function setup_server() {
 		const server = new oak_server();
@@ -208,4 +208,4 @@ async function init(user_settings) {
 	}
 }
 
-export { log, init, in_development_mode };
+export { log, new_server, in_development_mode };
