@@ -51,5 +51,5 @@ export async function get_from_cache(id: string) {
 		}
 	}
 
-	return null;
+	return undefined;
 }
