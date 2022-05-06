@@ -2,7 +2,11 @@ import { home, page } from './controllers.ts';
 
 export default [
 	{
-		path: '/:page_id',
+		path: '/404',
+		page: '404.html',
+	},
+	{
+		path: '/:project_slug',
 		page: 'page.html',
 		controller: page,
 	},
