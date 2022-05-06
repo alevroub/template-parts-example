@@ -1,13 +1,12 @@
 import { sanity_client } from '../_lib/mod.ts';
-import setup from '../setup.sanity.ts';
+import setup from './server.setup.ts';
 
 const sanity = sanity_client(setup);
 
 export async function home(context) {
-	const query = `*[slug.current == $slug][0]`;
-	const query_params = { slug: 'alfa' };
+	const query = `*[_type == 'font'][0]`;
 
-	const data = await sanity.fetch(query, query_params);
+	const data = await sanity.fetch(query);
 	const meta = { title: 'STATIC TEST' };
 
 	return { meta, data };
