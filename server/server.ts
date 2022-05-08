@@ -1,4 +1,4 @@
-import { new_server } from 'https://server.boing.link';
+import { Server } from 'http://boing.boing.link';
 
 const config = {};
 const routes = [
@@ -8,7 +8,7 @@ const routes = [
 	},
 ];
 
-const { server, router } = new_server(config, routes);
+const { server, router } = Server(config, routes);
 
 server.route(router);
 server.start();
