@@ -1,4 +1,4 @@
-import { Server } from 'http://boing.boing.link';
+import { Server } from 'https://boing.boing.link';
 
 import config from './config.ts';
 import routes from './routes.ts';
