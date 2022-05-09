@@ -12,7 +12,7 @@ case $1 in
 	;;
 
 	'cache')
-		deno cache --reload server/server.ts
+		deno cache --reload --no-cache server/server.ts
 	;;
 
 	'build')
