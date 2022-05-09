@@ -1,7 +1,7 @@
-import { sanity_client } from 'https://raw.githubusercontent.com/alevroub/nett/main/mod.ts';
+import { Sanity } from 'https://boing.boing.link';
 import config from './config.ts';
 
-const sanity = sanity_client(config);
+const sanity = Sanity(config);
 
 export async function home(context: any) {
 	const query = `{
@@ -9,7 +9,9 @@ export async function home(context: any) {
 	}`;
 
 	const data = await sanity.fetch(query);
-	const meta = { title: 'HOME!' };
+	const meta = {
+		title: `Total: ${data.projects.length} projects`
+	};
 
 	return { meta, data };
 }
