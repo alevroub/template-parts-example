@@ -1,7 +1,5 @@
 #!/bin/zsh
 
-build_directory=frontend/assets/
-
 case $1 in
 	'')
 		deno run --no-check --allow-net --allow-read --allow-write --watch server/server.ts --mode development
@@ -16,7 +14,11 @@ case $1 in
 	;;
 
 	'build')
-		esbuild --bundle frontend/style/style.css --outdir=$build_directory --minify &&
-		esbuild --bundle frontend/script/script.js --outdir=$build_directory --minify
+		dir=frontend/assets/build/
+		script=frontend/script/script.js
+		style=frontend/style/style.css
+
+		esbuild --bundle $script --outfile=${dir}app.js --minify &&
+		esbuild --bundle $style --outfile=${dir}app.css --minify
 	;;
 esac
