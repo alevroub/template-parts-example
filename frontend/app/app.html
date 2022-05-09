@@ -12,7 +12,12 @@
 		<link rel="icon" href="/assets/favicon.png" />
 
 		<link rel="stylesheet" type="text/css" href="/style/fonts.css" />
-		<link rel="stylesheet" type="text/css" href="/style/style.css" />
+
+		{% if $dev %}
+			<link rel="stylesheet" href="/style/style.css" />
+		{% else %}
+			<link rel="stylesheet" href="/assets/style.css" />
+		{% endif %}
 
 		<link rel="canonical" href="{{ $meta.url }}" />
 
@@ -37,6 +42,10 @@
 
 		{{ import "footer.html" }}
 
-		<script type="module" src="/script/script.js"></script>
+		{% if $dev %}
+			<script type="module" src="/script/script.js"></script>
+		{% else %}
+			<script type="module" src="/assets/script.js"></script>
+		{% endif %}
 	</body>
 </html>
