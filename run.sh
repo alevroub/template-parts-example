@@ -16,7 +16,7 @@ case $1 in
 	;;
 
 	'build')
-		esbuild --bundle app/style/app.css --outdir=$build_directory --minify &&
-		esbuild --bundle app/script/app.js --outdir=$build_directory --minify
+		esbuild --bundle frontend/style/style.css --outdir=$build_directory --minify &&
+		esbuild --bundle frontend/script/script.js --outdir=$build_directory --minify
 	;;
 esac
