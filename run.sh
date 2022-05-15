@@ -9,7 +9,7 @@ case $1 in
 		deno run --allow-net --allow-read --allow-write --watch server/server.ts --mode development
 	;;
 
-	'cache')
+	'reload')
 		deno cache --reload --no-check server/server.ts
 	;;
 esac
