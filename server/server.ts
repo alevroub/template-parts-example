@@ -1,4 +1,4 @@
-import { Server } from 'http://boing.boing.link';
+import { Server } from 'https://raw.githubusercontent.com/alevroub/template-parts/main/mod.ts';
 
 const config = {};
 const routes = [
